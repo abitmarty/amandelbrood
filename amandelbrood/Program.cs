@@ -54,16 +54,15 @@ class MandelForm : Form
         //int tempMandel;
         // Color tempColor;
 
-        this.mandelBrotImage = new Bitmap(443, 304);
-        Console.WriteLine(mandelBrotImage.Width);
-        Console.WriteLine(mandelBrotImage.Height);
+        this.mandelBrotImage = new Bitmap(pictureBox1.Width, pictureBox1.Height);
 
         for (int x = 0; x < mandelBrotImage.Width; x++)
         {
             for (int y = 0; y < mandelBrotImage.Height; y++)
             {
-                double tempX = x / 100 - 1;
-                double tempY = y / 100 - 1;
+                double tempX = Convert.ToDouble(x) / 100 - 1;
+                double tempY = Convert.ToDouble(y) / 100 - 1;
+
                 int tempMandel = this.calculateMandel(tempX, tempY);
                 Color tempColor = this.colorMandel(tempMandel);
                 this.mandelBrotImage.SetPixel(x, y, tempColor);
