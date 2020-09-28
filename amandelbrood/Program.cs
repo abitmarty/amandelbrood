@@ -60,8 +60,8 @@ class MandelForm : Form
         {
             for (int y = 0; y < mandelBrotImage.Height; y++)
             {
-                double tempX = Convert.ToDouble(x) / this.scale - 1;
-                double tempY = Convert.ToDouble(y) / this.scale - 1;
+                double tempX = Convert.ToDouble(x) / this.scale - 2;
+                double tempY = Convert.ToDouble(y) / this.scale - 1.5;
 
                 int tempMandel = this.calculateMandel(tempX, tempY);
                 Color tempColor = this.colorMandel(tempMandel);
