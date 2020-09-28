@@ -24,7 +24,7 @@ class MandelForm : Form
     // Set global necessities
     private double xMiddle;
     private double yMiddle;
-    private double scale;
+    private double scale = 100;
     private double max;
     private Bitmap mandelBrotImage;
 
@@ -60,8 +60,8 @@ class MandelForm : Form
         {
             for (int y = 0; y < mandelBrotImage.Height; y++)
             {
-                double tempX = Convert.ToDouble(x) / 100 - 1;
-                double tempY = Convert.ToDouble(y) / 100 - 1;
+                double tempX = Convert.ToDouble(x) / this.scale - 1;
+                double tempY = Convert.ToDouble(y) / this.scale - 1;
 
                 int tempMandel = this.calculateMandel(tempX, tempY);
                 Color tempColor = this.colorMandel(tempMandel);
@@ -236,6 +236,8 @@ class MandelForm : Form
         yMiddle = double.Parse(textBoxYValue.Text, System.Globalization.CultureInfo.InvariantCulture);
         scale = double.Parse(textBoxScale.Text, System.Globalization.CultureInfo.InvariantCulture);
         max = double.Parse(textBoxMax.Text, System.Globalization.CultureInfo.InvariantCulture);
+
+        this.Invalidate();
     }
 }
 
