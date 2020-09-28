@@ -9,7 +9,6 @@ using System;
 
 class MandelForm : Form
 {
-    // Added
     // Set global form variables
     private PictureBox pictureBox1;
     private Label labelYValue;
