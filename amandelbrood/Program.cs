@@ -22,8 +22,8 @@ class MandelForm : Form
     private Label labelXValue;
 
     // Set global necessities
-    private double xMiddle = 2;
-    private double yMiddle = 2;
+    private double xMiddle = 0;
+    private double yMiddle = 0;
     private double scale = 100;
     private double max = 1000;
     private Bitmap mandelBrotImage;
@@ -53,15 +53,15 @@ class MandelForm : Form
     {
         this.mandelBrotImage = new Bitmap(pictureBox1.Width, pictureBox1.Height);
 
-        double tryx = 2;
-        double tryy = -2;
+        //double tryx = 2;
+        //double tryy = -2;
 
         for (int x = 0; x < mandelBrotImage.Width; x++)
         {
             for (int y = 0; y < mandelBrotImage.Height; y++)
             {
-                double tempX = Convert.ToDouble(x) / this.scale - this.xMiddle;
-                double tempY = Convert.ToDouble(y) / this.scale - this.yMiddle;
+                double tempX = Convert.ToDouble(x) / this.scale - (this.mandelBrotImage.Width / this.scale / 2 + this.xMiddle) ;
+                double tempY = Convert.ToDouble(y) / this.scale - (this.mandelBrotImage.Height / this.scale / 2 - this.yMiddle) ;
 
 
                 /*                double tempX = (tryx / 400) * x;
