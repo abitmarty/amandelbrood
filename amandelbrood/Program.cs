@@ -37,7 +37,7 @@ class MandelForm : Form
 
     public MandelForm()
     {
-        this.Text = "Hallo";
+        this.Text = "Mandelbrot Designerotronic v1🚀";
         this.Size = new Size(500, 500);
         this.Paint += this.drawMandel;
         InitializeComponent();
@@ -124,7 +124,7 @@ class MandelForm : Form
         if (setMandelColor == "Fire") 
             return this.white;
         if (setMandelColor == "Sig sag") 
-            return this.white;
+            return this.sigsagsColor(mandel);
         if (setMandelColor == "Rainbow")
             return this.white;
 
@@ -148,6 +148,24 @@ class MandelForm : Form
         Color sailColor = Color.FromArgb(r, g , b);
         return sailColor;
     }
+
+    private Color sigsagsColor(int mandel)
+    {
+        int r = 0;
+        int g = 255 / mandel;
+        int b = 255 / (Convert.ToInt32(this.max) - mandel + 1);
+        Color sigsagColor = Color.FromArgb(r, g, b);
+        return sigsagColor;
+    }
+
+    /*private Color sailsColor(int mandel)
+    {
+        int r = 255 / mandel;
+        int g = 255 / (Convert.ToInt32(this.max) - mandel + 1);
+        int b = 0;
+        Color sailColor = Color.FromArgb(r, g, b);
+        return sailColor;
+    }*/
 
     private void InitializeComponent()
     {
