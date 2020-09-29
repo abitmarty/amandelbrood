@@ -111,6 +111,18 @@ class MandelForm : Form
         return this.black;
     }
 
+    private void buttonCalculate_MouseClick(object sender, MouseEventArgs e)
+    {
+        // Read textboxes
+        // TODO: Change to tryParse!
+        xMiddle = double.Parse(textBoxXValue.Text, System.Globalization.CultureInfo.InvariantCulture);
+        yMiddle = double.Parse(textBoxYValue.Text, System.Globalization.CultureInfo.InvariantCulture);
+        scale = double.Parse(textBoxScale.Text, System.Globalization.CultureInfo.InvariantCulture);
+        max = double.Parse(textBoxMax.Text, System.Globalization.CultureInfo.InvariantCulture);
+
+        this.Invalidate();
+    }
+
     private void InitializeComponent()
     {
         this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -226,18 +238,6 @@ class MandelForm : Form
         this.ResumeLayout(false);
         this.PerformLayout();
 
-    }
-
-    private void buttonCalculate_MouseClick(object sender, MouseEventArgs e)
-    {
-        // Read textboxes
-        // TODO: Change to tryParse!
-        xMiddle = double.Parse(textBoxXValue.Text, System.Globalization.CultureInfo.InvariantCulture);
-        yMiddle = double.Parse(textBoxYValue.Text, System.Globalization.CultureInfo.InvariantCulture);
-        scale = double.Parse(textBoxScale.Text, System.Globalization.CultureInfo.InvariantCulture);
-        max = double.Parse(textBoxMax.Text, System.Globalization.CultureInfo.InvariantCulture);
-
-        this.Invalidate();
     }
 }
 
