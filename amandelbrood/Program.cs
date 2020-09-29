@@ -30,6 +30,7 @@ class MandelForm : Form
 
     //Set colors
     Color black = Color.FromArgb(0, 0, 0);
+    private ComboBox comboBox1;
     Color white = Color.FromArgb(255, 255, 255);
 
     public MandelForm()
@@ -119,6 +120,7 @@ class MandelForm : Form
 
     private void InitializeComponent()
     {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MandelForm));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelXValue = new System.Windows.Forms.Label();
             this.labelYValue = new System.Windows.Forms.Label();
@@ -129,6 +131,7 @@ class MandelForm : Form
             this.labelScale = new System.Windows.Forms.Label();
             this.labelMax = new System.Windows.Forms.Label();
             this.buttonCalculate = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -145,7 +148,7 @@ class MandelForm : Form
             this.labelXValue.AutoSize = true;
             this.labelXValue.Location = new System.Drawing.Point(12, 9);
             this.labelXValue.Name = "labelXValue";
-            this.labelXValue.Size = new System.Drawing.Size(63, 13);
+            this.labelXValue.Size = new System.Drawing.Size(83, 17);
             this.labelXValue.TabIndex = 1;
             this.labelXValue.Text = "labelXValue";
             // 
@@ -154,7 +157,7 @@ class MandelForm : Form
             this.labelYValue.AutoSize = true;
             this.labelYValue.Location = new System.Drawing.Point(12, 32);
             this.labelYValue.Name = "labelYValue";
-            this.labelYValue.Size = new System.Drawing.Size(63, 13);
+            this.labelYValue.Size = new System.Drawing.Size(83, 17);
             this.labelYValue.TabIndex = 2;
             this.labelYValue.Text = "labelYValue";
             // 
@@ -162,28 +165,28 @@ class MandelForm : Form
             // 
             this.textBoxXValue.Location = new System.Drawing.Point(73, 6);
             this.textBoxXValue.Name = "textBoxXValue";
-            this.textBoxXValue.Size = new System.Drawing.Size(100, 20);
+            this.textBoxXValue.Size = new System.Drawing.Size(100, 22);
             this.textBoxXValue.TabIndex = 3;
             // 
             // textBoxYValue
             // 
             this.textBoxYValue.Location = new System.Drawing.Point(73, 29);
             this.textBoxYValue.Name = "textBoxYValue";
-            this.textBoxYValue.Size = new System.Drawing.Size(100, 20);
+            this.textBoxYValue.Size = new System.Drawing.Size(100, 22);
             this.textBoxYValue.TabIndex = 4;
             // 
             // textBoxScale
             // 
             this.textBoxScale.Location = new System.Drawing.Point(216, 29);
             this.textBoxScale.Name = "textBoxScale";
-            this.textBoxScale.Size = new System.Drawing.Size(100, 20);
+            this.textBoxScale.Size = new System.Drawing.Size(100, 22);
             this.textBoxScale.TabIndex = 8;
             // 
             // textBoxMax
             // 
             this.textBoxMax.Location = new System.Drawing.Point(216, 6);
             this.textBoxMax.Name = "textBoxMax";
-            this.textBoxMax.Size = new System.Drawing.Size(100, 20);
+            this.textBoxMax.Size = new System.Drawing.Size(100, 22);
             this.textBoxMax.TabIndex = 7;
             // 
             // labelScale
@@ -191,7 +194,7 @@ class MandelForm : Form
             this.labelScale.AutoSize = true;
             this.labelScale.Location = new System.Drawing.Point(175, 32);
             this.labelScale.Name = "labelScale";
-            this.labelScale.Size = new System.Drawing.Size(56, 13);
+            this.labelScale.Size = new System.Drawing.Size(73, 17);
             this.labelScale.TabIndex = 6;
             this.labelScale.Text = "labelScale";
             // 
@@ -200,7 +203,7 @@ class MandelForm : Form
             this.labelMax.AutoSize = true;
             this.labelMax.Location = new System.Drawing.Point(175, 9);
             this.labelMax.Name = "labelMax";
-            this.labelMax.Size = new System.Drawing.Size(49, 13);
+            this.labelMax.Size = new System.Drawing.Size(63, 17);
             this.labelMax.TabIndex = 5;
             this.labelMax.Text = "labelMax";
             // 
@@ -214,9 +217,18 @@ class MandelForm : Form
             this.buttonCalculate.UseVisualStyleBackColor = true;
             this.buttonCalculate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.buttonCalculate_MouseClick);
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(415, 7);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 24);
+            this.comboBox1.TabIndex = 10;
+            // 
             // MandelForm
             // 
-            this.ClientSize = new System.Drawing.Size(426, 476);
+            this.ClientSize = new System.Drawing.Size(539, 476);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.buttonCalculate);
             this.Controls.Add(this.textBoxScale);
             this.Controls.Add(this.textBoxMax);
@@ -227,6 +239,7 @@ class MandelForm : Form
             this.Controls.Add(this.labelYValue);
             this.Controls.Add(this.labelXValue);
             this.Controls.Add(this.pictureBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MandelForm";
             this.Load += new System.EventHandler(this.MandelForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
