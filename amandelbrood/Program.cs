@@ -142,8 +142,11 @@ class MandelForm : Form
 
     private Color sailsColor(int mandel)
     {
-        
-        return this.black;
+        int r = 255 / mandel;
+        int g = 255 / (Convert.ToInt32(this.max) - mandel + 1);
+        int b = 0;
+        Color sailColor = Color.FromArgb(r, g , b);
+        return sailColor;
     }
 
     private void InitializeComponent()
