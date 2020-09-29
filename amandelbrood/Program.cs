@@ -34,10 +34,16 @@ class MandelForm : Form
     //Set colors
     Color black = Color.FromArgb(0, 0, 0);
     Color white = Color.FromArgb(255, 255, 255);
+    Color yellow = Color.FromArgb(255, 185, 0);
+    Color orange = Color.FromArgb(247, 130, 0);
+    Color red = Color.FromArgb(226, 56, 56);
+    Color purple = Color.FromArgb(151, 57, 153);
+    Color blue = Color.FromArgb(0, 156, 223);
+    Color green = Color.FromArgb(94, 189, 62);
 
     public MandelForm()
     {
-        this.Text = "Hallo";
+        this.Text = "Mandelbrot Designerotronic v1🚀";
         this.Size = new Size(500, 500);
         this.Paint += this.drawMandel;
         InitializeComponent();
@@ -138,9 +144,9 @@ class MandelForm : Form
         if (setMandelColor == "Fire") 
             return this.white;
         if (setMandelColor == "Sig sag") 
-            return this.white;
+            return this.sigsagsColor(mandel);
         if (setMandelColor == "Rainbow")
-            return this.white;
+            return this.rainbowColor(mandel);
 
         return this.basicColor(mandel);
     }
@@ -162,6 +168,48 @@ class MandelForm : Form
         Color sailColor = Color.FromArgb(r, g , b);
         return sailColor;
     }
+
+    private Color sigsagsColor(int mandel)
+    {
+        int r = 0;
+        int g = 255 / mandel;
+        int b = 255 / (Convert.ToInt32(this.max) - mandel + 1);
+        Color sigsagColor = Color.FromArgb(r, g, b);
+        return sigsagColor;
+    }
+
+    private Color rainbowColor(int mandel)
+    {
+        if (mandel % 6 == 1)
+            return this.yellow;
+        if (mandel % 6 == 2)
+            return this.orange;
+        if (mandel % 6 == 3)
+            return this.red;
+        if (mandel % 6 == 4)
+            return this.purple;
+        if (mandel % 6 == 5)
+            return this.blue;
+        if (mandel % 6 == 0)
+            return this.green;
+
+
+
+        int r = 255 / mandel;
+        int g = 255 / (Convert.ToInt32(this.max) - mandel + 1);
+        int b = 0;
+        Color sailColor = Color.FromArgb(r, g, b);
+        return sailColor;
+    }
+
+    /*private Color sailsColor(int mandel)
+    {
+        int r = 255 / mandel;
+        int g = 255 / (Convert.ToInt32(this.max) - mandel + 1);
+        int b = 0;
+        Color sailColor = Color.FromArgb(r, g, b);
+        return sailColor;
+    }*/
 
     private void InitializeComponent()
     {
