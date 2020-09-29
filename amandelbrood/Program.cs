@@ -108,6 +108,8 @@ class MandelForm : Form
 
     private Color colorMandel(int mandel)
     {
+        if (mandel == this.max)
+            return this.black;
         if (mandel % 2 == 0)
             return this.white; 
         if (mandel == 7)
