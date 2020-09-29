@@ -235,12 +235,15 @@ class MandelForm : Form
 
     private void buttonCalculate_MouseClick(object sender, MouseEventArgs e)
     {
-        // Read textboxes
-        // TODO: Change to tryParse!
-        xMiddle = double.Parse(textBoxXValue.Text, System.Globalization.CultureInfo.InvariantCulture);
-        yMiddle = double.Parse(textBoxYValue.Text, System.Globalization.CultureInfo.InvariantCulture);
-        scale = double.Parse(textBoxScale.Text, System.Globalization.CultureInfo.InvariantCulture);
-        max = double.Parse(textBoxMax.Text, System.Globalization.CultureInfo.InvariantCulture);
+        // If textboxes are filled in read the input
+        if (!string.IsNullOrEmpty(textBoxXValue.Text) && Double.TryParse(textBoxXValue.Text, out this.xMiddle))
+            this.xMiddle = double.Parse(textBoxXValue.Text, System.Globalization.CultureInfo.InvariantCulture);
+        if (!string.IsNullOrEmpty(textBoxYValue.Text) && Double.TryParse(textBoxYValue.Text, out this.yMiddle))
+            this.yMiddle = double.Parse(textBoxYValue.Text, System.Globalization.CultureInfo.InvariantCulture);
+        if (!string.IsNullOrEmpty(textBoxScale.Text) && Double.TryParse(textBoxScale.Text, out this.scale))
+            this.scale = double.Parse(textBoxScale.Text, System.Globalization.CultureInfo.InvariantCulture);
+        if (!string.IsNullOrEmpty(textBoxMax.Text) && Double.TryParse(textBoxMax.Text, out this.max))
+            this.max = double.Parse(textBoxMax.Text, System.Globalization.CultureInfo.InvariantCulture);
 
         this.Invalidate();
     }
