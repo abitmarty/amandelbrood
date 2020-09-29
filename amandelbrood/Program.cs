@@ -20,6 +20,8 @@ class MandelForm : Form
     private Label labelMax;
     private Button buttonCalculate;
     private Label labelXValue;
+    private ComboBox comboBoxColors;
+
 
     // Set global necessities
     private double xMiddle = 0;
@@ -27,10 +29,10 @@ class MandelForm : Form
     private double scale = 100;
     private double max = 1000;
     private Bitmap mandelBrotImage;
+    private String setMandelColor;
 
     //Set colors
     Color black = Color.FromArgb(0, 0, 0);
-    private ComboBox comboBox1;
     Color white = Color.FromArgb(255, 255, 255);
 
     public MandelForm()
@@ -48,6 +50,14 @@ class MandelForm : Form
         this.labelScale.Text = "Scale";
         this.labelMax.Text = "Max";
         this.buttonCalculate.Text = "Calculate";
+
+        this.comboBoxColors.Items.AddRange(new object[] {
+                        "Basic",
+                        "Sails",
+                        "Fire",
+                        "Sig sag",
+                        "Rainbow"
+        });
     }
 
     void drawMandel(object obj, PaintEventArgs pea)
@@ -108,13 +118,31 @@ class MandelForm : Form
     }
 
     private Color colorMandel(int mandel)
+    { 
+        if (setMandelColor == "Sails")
+            return this.sailsColor(mandel);
+        if (setMandelColor == "Fire") 
+            return this.white;
+        if (setMandelColor == "Sig sag") 
+            return this.white;
+        if (setMandelColor == "Rainbow")
+            return this.white;
+
+        return this.basicColor(mandel);
+    }
+
+    private Color basicColor(int mandel)
     {
         if (mandel == this.max)
             return this.black;
         if (mandel % 2 == 0)
-            return this.white; 
-        if (mandel == 7)
-            return Color.FromArgb(255, 0, 0); // Red
+            return this.white;
+        return this.black;
+    }
+
+    private Color sailsColor(int mandel)
+    {
+        
         return this.black;
     }
 
@@ -131,7 +159,7 @@ class MandelForm : Form
             this.labelScale = new System.Windows.Forms.Label();
             this.labelMax = new System.Windows.Forms.Label();
             this.buttonCalculate = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxColors = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -217,18 +245,18 @@ class MandelForm : Form
             this.buttonCalculate.UseVisualStyleBackColor = true;
             this.buttonCalculate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.buttonCalculate_MouseClick);
             // 
-            // comboBox1
+            // comboBoxColors
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(415, 7);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 24);
-            this.comboBox1.TabIndex = 10;
+            this.comboBoxColors.FormattingEnabled = true;
+            this.comboBoxColors.Location = new System.Drawing.Point(415, 7);
+            this.comboBoxColors.Name = "comboBoxColors";
+            this.comboBoxColors.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxColors.TabIndex = 10;
             // 
             // MandelForm
             // 
             this.ClientSize = new System.Drawing.Size(539, 476);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBoxColors);
             this.Controls.Add(this.buttonCalculate);
             this.Controls.Add(this.textBoxScale);
             this.Controls.Add(this.textBoxMax);
@@ -259,6 +287,10 @@ class MandelForm : Form
             this.scale = double.Parse(textBoxScale.Text, System.Globalization.CultureInfo.InvariantCulture);
         if (!string.IsNullOrEmpty(textBoxMax.Text) && Double.TryParse(textBoxMax.Text, out this.max))
             this.max = double.Parse(textBoxMax.Text, System.Globalization.CultureInfo.InvariantCulture);
+
+        Object selectedItem = comboBoxColors.SelectedItem;
+        this.setMandelColor = selectedItem.ToString();
+
 
         this.Invalidate();
     }
