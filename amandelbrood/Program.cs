@@ -47,6 +47,7 @@ class MandelForm : Form
         this.Size = new Size(500, 500);
         this.Paint += this.drawMandel;
         InitializeComponent();
+        this.pictureBox1.MouseClick += this.pictureBoxClicked;
 
         Console.WriteLine(this.calculateMandel(0.5, 0.8));
 
@@ -64,6 +65,19 @@ class MandelForm : Form
                         "Sig sag",
                         "Rainbow"
         });
+    }
+
+    void pictureBoxClicked(object obj, MouseEventArgs ea)
+    {
+        double posX = ea.X;
+        double posY = ea.Y;
+
+        this.xMiddle = posX = (((this.mandelBrotImage.Width / 2) - posX) / this.scale) + this.xMiddle;
+        this.yMiddle = - (((this.mandelBrotImage.Height / 2) - posY) / this.scale) + this.yMiddle;
+
+        this.scale += 500;
+
+        this.Invalidate();
     }
 
     void drawMandel(object obj, PaintEventArgs pea)
@@ -340,10 +354,11 @@ class MandelForm : Form
         if (!string.IsNullOrEmpty(textBoxMax.Text) && Double.TryParse(textBoxMax.Text, out this.max))
             this.max = double.Parse(textBoxMax.Text, System.Globalization.CultureInfo.InvariantCulture);
 
+        // Read dropdown
         Object selectedItem = comboBoxColors.SelectedItem;
         this.setMandelColor = selectedItem.ToString();
 
-
+        // Invalidate drawing
         this.Invalidate();
     }
 
