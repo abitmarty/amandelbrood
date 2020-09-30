@@ -23,6 +23,10 @@ class MandelForm : Form
     private Button buttonReset;
     private Label labelXValue;
     private ComboBox comboBoxColors;
+    private Label labelPreset;
+    private Label labelZoomOnClick;
+    private Button buttonZoomOut;
+    private Button buttonZoomIn;
 
     // Preset buttons
     private Button buttonPreset1;
@@ -31,15 +35,19 @@ class MandelForm : Form
 
     // Set global necessities
     private Bitmap mandelBrotImage;
+    private Boolean zoomIn = true;
+    private Color colorError = Color.Red;
+    private Color colorBtSelected = Color.LightGray;
+    private Color colorNormal = default(Color);
 
     // Presets
     private static Preset defaultPreset = new Preset(0, 0, 100, 1000, "Basic");
     private static Preset preset1 = new Preset(0.105546875, -0.92421875, 40000, 1000, "Rainbow");
     private static Preset preset2 = new Preset(0.5622216796875, -0.6428271484375, 409600, 1000, "Rainbow");
-    private static Preset preset3 = new Preset(0.75248046875, 0.038642578125, 409600, 1000, "Basic");
+    private static Preset preset3 = new Preset(0.75248046875, 0.038642578125, 409600, 400, "Basic");
     private Preset currentPreset = new Preset(defaultPreset.getXMiddle(), defaultPreset.getYMiddle(), defaultPreset.getScale(), defaultPreset.getMax(), defaultPreset.getMandelColor());
 
-    //Set colors
+    //Set colors for mandel
     Color black = Color.FromArgb(0, 0, 0);
     Color white = Color.FromArgb(255, 255, 255);
     Color yellow = Color.FromArgb(255, 185, 0);
@@ -63,6 +71,8 @@ class MandelForm : Form
         this.buttonPreset1.MouseClick += (sender, EventArgs) => { setPreset(sender, EventArgs, preset1); }; ;
         this.buttonPreset2.MouseClick += (sender, EventArgs) => { setPreset(sender, EventArgs, preset2); }; ;
         this.buttonPreset3.MouseClick += (sender, EventArgs) => { setPreset(sender, EventArgs, preset3); }; ;
+        this.buttonZoomOut.MouseClick += setZoomOut;
+        this.buttonZoomIn.MouseClick += setZoomIn;
 
         // Set label text
         this.labelYValue.Text = "Center Y";
@@ -74,6 +84,12 @@ class MandelForm : Form
         this.buttonPreset1.Text = "Minimandel";
         this.buttonPreset2.Text = "Neverland";
         this.buttonPreset3.Text = "Croissant";
+        this.labelPreset.Text = "Available presets:";
+        this.buttonZoomOut.Text = "-";
+        this.buttonZoomIn.Text = "+";
+        this.labelZoomOnClick.Text = "Zooming in";
+        this.buttonZoomIn.BackColor = colorBtSelected;
+        this.buttonZoomOut.BackColor = colorNormal;
 
         this.comboBoxColors.Items.AddRange(new object[] {
                         "Basic",
@@ -102,9 +118,35 @@ class MandelForm : Form
         this.currentPreset.setYMiddle( - (((this.mandelBrotImage.Height / 2) - posY) / this.currentPreset.getScale()) + this.currentPreset.getYMiddle());
 
         // Zoom in by updating scale
-        this.currentPreset.setScale(this.currentPreset.getScale() * 2);
+        this.zoomInZoomOut();
 
         this.Invalidate();
+    }
+
+    private void zoomInZoomOut()
+    {
+        if (this.zoomIn)
+            this.currentPreset.setScale(this.currentPreset.getScale() * 2);
+        else
+        {
+            this.currentPreset.setScale(this.currentPreset.getScale() * 0.5);
+        }
+    }
+
+    private void setZoomOut(object obj, MouseEventArgs ea)
+    {
+        this.zoomIn = false;
+        this.labelZoomOnClick.Text = "Zooming out";
+        this.buttonZoomIn.BackColor = this.colorNormal;
+        this.buttonZoomOut.BackColor = this.colorBtSelected;
+    }
+    
+    private void setZoomIn(object obj, MouseEventArgs ea)
+    {
+        this.zoomIn = true;
+        this.labelZoomOnClick.Text = "Zooming in";
+        this.buttonZoomIn.BackColor = this.colorNormal;
+        this.buttonZoomOut.BackColor = this.colorBtSelected;
     }
 
     void drawMandel(object obj, PaintEventArgs pea)
@@ -259,26 +301,44 @@ class MandelForm : Form
     private void buttonCalculate_MouseClick(object sender, MouseEventArgs e)
     {
         // If textboxes are filled in read the input
-        //if (!string.IsNullOrEmpty(textBoxXValue.Text) && Double.Parce(textBoxXValue.Text, System.Globalization.CultureInfo.InvariantCulture))
+        try
+        {
             this.currentPreset.setXMiddle(double.Parse(textBoxXValue.Text, System.Globalization.CultureInfo.InvariantCulture));
-        //if (!string.IsNullOrEmpty(textBoxYValue.Text) && Double.TryParse(textBoxYValue.Text, out this.yMiddle))
+            this.textBoxXValue.BackColor = this.colorNormal;
+        }
+        catch (Exception ea) { this.textBoxXValue.BackColor = this.colorError; }
+
+        try
+        {
             this.currentPreset.setYMiddle(double.Parse(textBoxYValue.Text, System.Globalization.CultureInfo.InvariantCulture));
-        //if (!string.IsNullOrEmpty(textBoxScale.Text) && Double.TryParse(textBoxScale.Text, out this.scale))
+            this.textBoxYValue.BackColor = this.colorNormal;
+        }
+        catch (Exception ea) { this.textBoxYValue.BackColor = this.colorError; }
+
+        try
+        {
             this.currentPreset.setScale(double.Parse(textBoxScale.Text, System.Globalization.CultureInfo.InvariantCulture));
-        //if (!string.IsNullOrEmpty(textBoxMax.Text) && Double.TryParse(textBoxMax.Text, out this.max))
+            this.textBoxScale.BackColor = this.colorNormal;
+        }
+        catch (Exception ea) { this.textBoxScale.BackColor = this.colorError; }
+
+        try
+        {
             this.currentPreset.setMax(double.Parse(textBoxMax.Text, System.Globalization.CultureInfo.InvariantCulture));
+            this.textBoxMax.BackColor = this.colorNormal;
+        }
+        catch (Exception ea) { this.textBoxMax.BackColor = this.colorError; }
 
         // Read dropdown
+        // TODO: get rid of error on incorect input
         try
         {
             Object selectedItem = comboBoxColors.SelectedItem;
             this.currentPreset.setMandelColor(selectedItem.ToString());
-        }catch (NullReferenceException exe)
+        }catch (Exception ea)
         {
             // Do nothing
         }
-
-        Console.WriteLine("Hello");
 
         // Invalidate drawing
         this.Invalidate();
@@ -302,6 +362,10 @@ class MandelForm : Form
             this.buttonPreset1 = new System.Windows.Forms.Button();
             this.buttonPreset2 = new System.Windows.Forms.Button();
             this.buttonPreset3 = new System.Windows.Forms.Button();
+            this.labelPreset = new System.Windows.Forms.Label();
+            this.labelZoomOnClick = new System.Windows.Forms.Label();
+            this.buttonZoomOut = new System.Windows.Forms.Button();
+            this.buttonZoomIn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -406,7 +470,7 @@ class MandelForm : Form
             // 
             // buttonPreset1
             // 
-            this.buttonPreset1.Location = new System.Drawing.Point(415, 88);
+            this.buttonPreset1.Location = new System.Drawing.Point(415, 116);
             this.buttonPreset1.Name = "buttonPreset1";
             this.buttonPreset1.Size = new System.Drawing.Size(121, 23);
             this.buttonPreset1.TabIndex = 12;
@@ -415,7 +479,7 @@ class MandelForm : Form
             // 
             // buttonPreset2
             // 
-            this.buttonPreset2.Location = new System.Drawing.Point(415, 117);
+            this.buttonPreset2.Location = new System.Drawing.Point(415, 145);
             this.buttonPreset2.Name = "buttonPreset2";
             this.buttonPreset2.Size = new System.Drawing.Size(121, 23);
             this.buttonPreset2.TabIndex = 12;
@@ -424,16 +488,56 @@ class MandelForm : Form
             // 
             // buttonPreset3
             // 
-            this.buttonPreset3.Location = new System.Drawing.Point(415, 146);
+            this.buttonPreset3.Location = new System.Drawing.Point(415, 174);
             this.buttonPreset3.Name = "buttonPreset3";
             this.buttonPreset3.Size = new System.Drawing.Size(121, 23);
             this.buttonPreset3.TabIndex = 12;
             this.buttonPreset3.Text = "buttonPreset1";
             this.buttonPreset3.UseVisualStyleBackColor = true;
             // 
+            // labelPreset
+            // 
+            this.labelPreset.AutoSize = true;
+            this.labelPreset.Location = new System.Drawing.Point(418, 100);
+            this.labelPreset.Name = "labelPreset";
+            this.labelPreset.Size = new System.Drawing.Size(59, 13);
+            this.labelPreset.TabIndex = 13;
+            this.labelPreset.Text = "labelPreset";
+            // 
+            // labelZoomOnClick
+            // 
+            this.labelZoomOnClick.AutoSize = true;
+            this.labelZoomOnClick.Location = new System.Drawing.Point(421, 229);
+            this.labelZoomOnClick.Name = "labelZoomOnClick";
+            this.labelZoomOnClick.Size = new System.Drawing.Size(93, 13);
+            this.labelZoomOnClick.TabIndex = 14;
+            this.labelZoomOnClick.Text = "labelZoomOnClick";
+            // 
+            // buttonZoomOut
+            // 
+            this.buttonZoomOut.Location = new System.Drawing.Point(421, 246);
+            this.buttonZoomOut.Name = "buttonZoomOut";
+            this.buttonZoomOut.Size = new System.Drawing.Size(35, 23);
+            this.buttonZoomOut.TabIndex = 15;
+            this.buttonZoomOut.Text = "buttonZoomOut";
+            this.buttonZoomOut.UseVisualStyleBackColor = true;
+            // 
+            // buttonZoomIn
+            // 
+            this.buttonZoomIn.Location = new System.Drawing.Point(483, 246);
+            this.buttonZoomIn.Name = "buttonZoomIn";
+            this.buttonZoomIn.Size = new System.Drawing.Size(35, 23);
+            this.buttonZoomIn.TabIndex = 16;
+            this.buttonZoomIn.Text = "buttonZoomIn";
+            this.buttonZoomIn.UseVisualStyleBackColor = true;
+            // 
             // MandelForm
             // 
             this.ClientSize = new System.Drawing.Size(539, 476);
+            this.Controls.Add(this.buttonZoomIn);
+            this.Controls.Add(this.buttonZoomOut);
+            this.Controls.Add(this.labelZoomOnClick);
+            this.Controls.Add(this.labelPreset);
             this.Controls.Add(this.buttonPreset3);
             this.Controls.Add(this.buttonPreset2);
             this.Controls.Add(this.buttonPreset1);
@@ -451,15 +555,9 @@ class MandelForm : Form
             this.Controls.Add(this.pictureBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MandelForm";
-            this.Load += new System.EventHandler(this.MandelForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
-    }
-
-    private void MandelForm_Load(object sender, EventArgs e)
-    {
 
     }
 }
