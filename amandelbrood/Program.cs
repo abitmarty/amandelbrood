@@ -24,24 +24,17 @@ class MandelForm : Form
     private Label labelXValue;
     private ComboBox comboBoxColors;
 
-    // Set defaults
-    private static double defaultxMiddle = 0;
-    private static double defaultyMiddle = 0;
-    private static double defaultScale = 100;
-    private static double defaultMax = 1000;
-    private static String defaultSetMandelColor = "Basic";
+    // Preset buttons
+    private Button buttonPreset1;
+    private Button buttonPreset2;
+    private Button buttonPreset3;
 
     // Set global necessities
-    private double xMiddle = defaultxMiddle;
-    private double yMiddle = defaultyMiddle;
-    private double scale = defaultScale;
-    private double max = defaultMax;
     private Bitmap mandelBrotImage;
-    private String setMandelColor = defaultSetMandelColor;
 
     // Presets
-    // private static Preset defaultPreset = new Preset(0, 0, 100, 1000, "Basic");
-    // private Preset currentPreset = defaultPreset;
+    private static Preset defaultPreset = new Preset(0, 0, 100, 1000, "Basic");
+    private Preset currentPreset = new Preset(defaultPreset.getXMiddle(), defaultPreset.getYMiddle(), defaultPreset.getScale(), defaultPreset.getMax(), defaultPreset.getMandelColor());
 
 
 
@@ -72,6 +65,9 @@ class MandelForm : Form
         this.labelMax.Text = "Max";
         this.buttonCalculate.Text = "Calculate";
         this.buttonReset.Text = "Reset";
+        this.buttonPreset1.Text = "Preset 1";
+        this.buttonPreset2.Text = "Preset 2";
+        this.buttonPreset3.Text = "Preset 3";
 
         this.comboBoxColors.Items.AddRange(new object[] {
                         "Basic",
@@ -80,16 +76,17 @@ class MandelForm : Form
                         "Sig sag",
                         "Rainbow"
         });
+        Console.WriteLine(this.currentPreset.getXMiddle());
+        Console.WriteLine(this.currentPreset.getYMiddle());
+        Console.WriteLine(this.currentPreset.getScale());
+        Console.WriteLine(this.currentPreset.getMax());
+        Console.WriteLine(this.currentPreset.getMandelColor());
     }
 
     void resetMandel(object obj, MouseEventArgs ea)
     {
         // Set all values to default
-        this.xMiddle = defaultxMiddle;
-        this.yMiddle = defaultyMiddle;
-        this.scale = defaultScale;
-        this.max = defaultMax;
-        this.setMandelColor = defaultSetMandelColor;
+        currentPreset = new Preset(defaultPreset.getXMiddle(), defaultPreset.getYMiddle(), defaultPreset.getScale(), defaultPreset.getMax(), defaultPreset.getMandelColor());
         this.Invalidate();
     }
 
@@ -100,11 +97,11 @@ class MandelForm : Form
         double posY = ea.Y;
 
         // Set the x and y coords to the x and y values of the clicked position
-        this.xMiddle = (((this.mandelBrotImage.Width / 2) - posX) / this.scale) + this.xMiddle;
-        this.yMiddle = - (((this.mandelBrotImage.Height / 2) - posY) / this.scale) + this.yMiddle;
+        this.currentPreset.setXMiddle((((this.mandelBrotImage.Width / 2) - posX) / this.currentPreset.getScale()) + this.currentPreset.getXMiddle());
+        this.currentPreset.setYMiddle( - (((this.mandelBrotImage.Height / 2) - posY) / this.currentPreset.getScale()) + this.currentPreset.getYMiddle());
 
         // Zoom in by updating scale
-        this.scale *= 2;
+        this.currentPreset.setScale(this.currentPreset.getScale() * 2);
 
         this.Invalidate();
     }
@@ -119,8 +116,8 @@ class MandelForm : Form
         {
             for (int y = 0; y < mandelBrotImage.Height; y++)
             {
-                double tempX = Convert.ToDouble(x) / this.scale - (this.mandelBrotImage.Width / this.scale / 2 + this.xMiddle) ;
-                double tempY = Convert.ToDouble(y) / this.scale - (this.mandelBrotImage.Height / this.scale / 2 - this.yMiddle) ;
+                double tempX = Convert.ToDouble(x) / this.currentPreset.getScale() - (this.mandelBrotImage.Width / this.currentPreset.getScale() / 2 + this.currentPreset.getXMiddle()) ;
+                double tempY = Convert.ToDouble(y) / this.currentPreset.getScale() - (this.mandelBrotImage.Height / this.currentPreset.getScale() / 2 - this.currentPreset.getYMiddle()) ;
 
                 int tempMandel = this.calculateMandel(tempX, tempY);
                 Color tempColor = this.colorMandel(tempMandel);
@@ -133,11 +130,11 @@ class MandelForm : Form
 
     public void setTextBoxes()
     {
-        this.textBoxXValue.Text = this.xMiddle.ToString();
-        this.textBoxYValue.Text = this.yMiddle.ToString();
-        this.textBoxScale.Text = this.scale.ToString();
-        this.textBoxMax.Text = this.max.ToString();
-        this.comboBoxColors.Text = this.setMandelColor;
+        this.textBoxXValue.Text = this.currentPreset.getXMiddle().ToString();
+        this.textBoxYValue.Text = this.currentPreset.getYMiddle().ToString();
+        this.textBoxScale.Text = this.currentPreset.getScale().ToString();
+        this.textBoxMax.Text = this.currentPreset.getMax().ToString();
+        this.comboBoxColors.Text = this.currentPreset.getMandelColor();
     }
 
     public int calculateMandel(double xCoord, double yCoord)
@@ -169,26 +166,26 @@ class MandelForm : Form
 
             // Add one to mandel
             mandel++;
-        } while (distance < 2 && mandel < this.max);
+        } while (distance < 2 && mandel < this.currentPreset.getMax());
         return mandel;
     }
 
     private void checkMax()
     {
         // Check the max to avoid extreme recursion
-        if (this.max > 1000)
-            this.max = 1000;
+        if (this.currentPreset.getMax() > 1000)
+            this.currentPreset.setMax(1000);
     }
 
     private Color colorMandel(int mandel)
     { 
-        if (setMandelColor == "Sails")
+        if (this.currentPreset.getMandelColor() == "Sails")
             return this.sailsColor(mandel);
-        if (setMandelColor == "Fire") 
+        if (this.currentPreset.getMandelColor() == "Fire") 
             return this.firesColor(mandel);
-        if (setMandelColor == "Sig sag") 
+        if (this.currentPreset.getMandelColor() == "Sig sag") 
             return this.sigsagsColor(mandel);
-        if (setMandelColor == "Rainbow")
+        if (this.currentPreset.getMandelColor() == "Rainbow")
             return this.rainbowColor(mandel);
 
         return this.basicColor(mandel);
@@ -196,7 +193,7 @@ class MandelForm : Form
 
     private Color basicColor(int mandel)
     {
-        if (mandel == this.max)
+        if (mandel == this.currentPreset.getMax())
             return this.black;
         if (mandel % 2 == 0)
             return this.white;
@@ -206,7 +203,7 @@ class MandelForm : Form
     private Color sailsColor(int mandel)
     {
         int r = 255 / mandel;
-        int g = 255 / (Convert.ToInt32(this.max) - mandel + 1);
+        int g = 255 / (Convert.ToInt32(this.currentPreset.getMax()) - mandel + 1);
         int b = 0;
         Color sailColor = Color.FromArgb(r, g , b);
         return sailColor;
@@ -216,7 +213,7 @@ class MandelForm : Form
     {
         int r = 255 / mandel;
         int g = 0 ;
-        int b = 255 / (Convert.ToInt32(this.max) - mandel + 1);
+        int b = 255 / (Convert.ToInt32(this.currentPreset.getMax()) - mandel + 1);
         Color fireColor = Color.FromArgb(r, g, b);
         return fireColor;
     }
@@ -225,7 +222,7 @@ class MandelForm : Form
     {
         int r = 0;
         int g = 255 / mandel;
-        int b = 255 / (Convert.ToInt32(this.max) - mandel + 1);
+        int b = 255 / (Convert.ToInt32(this.currentPreset.getMax()) - mandel + 1);
         Color sigsagColor = Color.FromArgb(r, g, b);
         return sigsagColor;
     }
@@ -246,7 +243,7 @@ class MandelForm : Form
             return this.green;
 
         int r = 255 / mandel;
-        int g = 255 / (Convert.ToInt32(this.max) - mandel + 1);
+        int g = 255 / (Convert.ToInt32(this.currentPreset.getMax()) - mandel + 1);
         int b = 0;
         Color sailColor = Color.FromArgb(r, g, b);
         return sailColor;
@@ -255,20 +252,20 @@ class MandelForm : Form
     private void buttonCalculate_MouseClick(object sender, MouseEventArgs e)
     {
         // If textboxes are filled in read the input
-        if (!string.IsNullOrEmpty(textBoxXValue.Text) && Double.TryParse(textBoxXValue.Text, out this.xMiddle))
-            this.xMiddle = double.Parse(textBoxXValue.Text, System.Globalization.CultureInfo.InvariantCulture);
-        if (!string.IsNullOrEmpty(textBoxYValue.Text) && Double.TryParse(textBoxYValue.Text, out this.yMiddle))
-            this.yMiddle = double.Parse(textBoxYValue.Text, System.Globalization.CultureInfo.InvariantCulture);
-        if (!string.IsNullOrEmpty(textBoxScale.Text) && Double.TryParse(textBoxScale.Text, out this.scale))
-            this.scale = double.Parse(textBoxScale.Text, System.Globalization.CultureInfo.InvariantCulture);
-        if (!string.IsNullOrEmpty(textBoxMax.Text) && Double.TryParse(textBoxMax.Text, out this.max))
-            this.max = double.Parse(textBoxMax.Text, System.Globalization.CultureInfo.InvariantCulture);
+        //if (!string.IsNullOrEmpty(textBoxXValue.Text) && Double.Parce(textBoxXValue.Text, System.Globalization.CultureInfo.InvariantCulture))
+            this.currentPreset.setXMiddle(double.Parse(textBoxXValue.Text, System.Globalization.CultureInfo.InvariantCulture));
+        //if (!string.IsNullOrEmpty(textBoxYValue.Text) && Double.TryParse(textBoxYValue.Text, out this.yMiddle))
+            this.currentPreset.setYMiddle(double.Parse(textBoxYValue.Text, System.Globalization.CultureInfo.InvariantCulture));
+        //if (!string.IsNullOrEmpty(textBoxScale.Text) && Double.TryParse(textBoxScale.Text, out this.scale))
+            this.currentPreset.setScale(double.Parse(textBoxScale.Text, System.Globalization.CultureInfo.InvariantCulture));
+        //if (!string.IsNullOrEmpty(textBoxMax.Text) && Double.TryParse(textBoxMax.Text, out this.max))
+            this.currentPreset.setMax(double.Parse(textBoxMax.Text, System.Globalization.CultureInfo.InvariantCulture));
 
         // Read dropdown
         try
         {
             Object selectedItem = comboBoxColors.SelectedItem;
-            this.setMandelColor = selectedItem.ToString();
+            this.currentPreset.setMandelColor(selectedItem.ToString());
         }catch (NullReferenceException exe)
         {
             // Do nothing
@@ -295,6 +292,9 @@ class MandelForm : Form
             this.buttonCalculate = new System.Windows.Forms.Button();
             this.comboBoxColors = new System.Windows.Forms.ComboBox();
             this.buttonReset = new System.Windows.Forms.Button();
+            this.buttonPreset1 = new System.Windows.Forms.Button();
+            this.buttonPreset2 = new System.Windows.Forms.Button();
+            this.buttonPreset3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -397,9 +397,39 @@ class MandelForm : Form
             this.buttonReset.Text = "buttonReset";
             this.buttonReset.UseVisualStyleBackColor = true;
             // 
+            // buttonPreset1
+            // 
+            this.buttonPreset1.Location = new System.Drawing.Point(415, 88);
+            this.buttonPreset1.Name = "buttonPreset1";
+            this.buttonPreset1.Size = new System.Drawing.Size(121, 23);
+            this.buttonPreset1.TabIndex = 12;
+            this.buttonPreset1.Text = "buttonPreset1";
+            this.buttonPreset1.UseVisualStyleBackColor = true;
+            // 
+            // buttonPreset2
+            // 
+            this.buttonPreset2.Location = new System.Drawing.Point(415, 117);
+            this.buttonPreset2.Name = "buttonPreset2";
+            this.buttonPreset2.Size = new System.Drawing.Size(121, 23);
+            this.buttonPreset2.TabIndex = 12;
+            this.buttonPreset2.Text = "buttonPreset1";
+            this.buttonPreset2.UseVisualStyleBackColor = true;
+            // 
+            // buttonPreset3
+            // 
+            this.buttonPreset3.Location = new System.Drawing.Point(415, 146);
+            this.buttonPreset3.Name = "buttonPreset3";
+            this.buttonPreset3.Size = new System.Drawing.Size(121, 23);
+            this.buttonPreset3.TabIndex = 12;
+            this.buttonPreset3.Text = "buttonPreset1";
+            this.buttonPreset3.UseVisualStyleBackColor = true;
+            // 
             // MandelForm
             // 
             this.ClientSize = new System.Drawing.Size(539, 476);
+            this.Controls.Add(this.buttonPreset3);
+            this.Controls.Add(this.buttonPreset2);
+            this.Controls.Add(this.buttonPreset1);
             this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.comboBoxColors);
             this.Controls.Add(this.buttonCalculate);

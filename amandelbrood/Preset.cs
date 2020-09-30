@@ -58,7 +58,7 @@ namespace amandelbrood
             return this.max;
         }
 
-        public void setMax(double yMiddle)
+        public void setMax(double max)
         {
             this.max = max;
         }
