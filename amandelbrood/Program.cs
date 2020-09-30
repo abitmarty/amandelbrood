@@ -34,10 +34,10 @@ class MandelForm : Form
 
     // Presets
     private static Preset defaultPreset = new Preset(0, 0, 100, 1000, "Basic");
+    private static Preset preset1 = new Preset(0.105546875, -0.92421875, 40000, 1000, "Rainbow");
+    private static Preset preset2 = new Preset(0.5622216796875, -0.6428271484375, 409600, 1000, "Rainbow");
+    private static Preset preset3 = new Preset(0.75248046875, 0.038642578125, 409600, 1000, "Basic");
     private Preset currentPreset = new Preset(defaultPreset.getXMiddle(), defaultPreset.getYMiddle(), defaultPreset.getScale(), defaultPreset.getMax(), defaultPreset.getMandelColor());
-
-
-
 
     //Set colors
     Color black = Color.FromArgb(0, 0, 0);
@@ -56,7 +56,13 @@ class MandelForm : Form
         this.Paint += this.drawMandel;
         InitializeComponent();
         this.pictureBox1.MouseClick += this.pictureBoxClicked;
-        this.buttonReset.MouseClick += this.resetMandel;
+
+        // Give extra preset parameter to onclick
+        // This way we only need one function. (Reset is also a preset)
+        this.buttonReset.MouseClick += (sender, EventArgs) => { setPreset(sender, EventArgs, defaultPreset); }; ;
+        this.buttonPreset1.MouseClick += (sender, EventArgs) => { setPreset(sender, EventArgs, preset1); }; ;
+        this.buttonPreset2.MouseClick += (sender, EventArgs) => { setPreset(sender, EventArgs, preset2); }; ;
+        this.buttonPreset3.MouseClick += (sender, EventArgs) => { setPreset(sender, EventArgs, preset3); }; ;
 
         // Set label text
         this.labelYValue.Text = "Center Y";
@@ -65,9 +71,9 @@ class MandelForm : Form
         this.labelMax.Text = "Max";
         this.buttonCalculate.Text = "Calculate";
         this.buttonReset.Text = "Reset";
-        this.buttonPreset1.Text = "Preset 1";
-        this.buttonPreset2.Text = "Preset 2";
-        this.buttonPreset3.Text = "Preset 3";
+        this.buttonPreset1.Text = "Minimandel";
+        this.buttonPreset2.Text = "Neverland";
+        this.buttonPreset3.Text = "Croissant";
 
         this.comboBoxColors.Items.AddRange(new object[] {
                         "Basic",
@@ -76,17 +82,12 @@ class MandelForm : Form
                         "Sig sag",
                         "Rainbow"
         });
-        Console.WriteLine(this.currentPreset.getXMiddle());
-        Console.WriteLine(this.currentPreset.getYMiddle());
-        Console.WriteLine(this.currentPreset.getScale());
-        Console.WriteLine(this.currentPreset.getMax());
-        Console.WriteLine(this.currentPreset.getMandelColor());
     }
 
-    void resetMandel(object obj, MouseEventArgs ea)
+    void setPreset(object obj, MouseEventArgs ea, Preset tempPreset)
     {
-        // Set all values to default
-        currentPreset = new Preset(defaultPreset.getXMiddle(), defaultPreset.getYMiddle(), defaultPreset.getScale(), defaultPreset.getMax(), defaultPreset.getMandelColor());
+        // Set all values to tempPreset values given
+        currentPreset = new Preset(tempPreset.getXMiddle(), tempPreset.getYMiddle(), tempPreset.getScale(), tempPreset.getMax(), tempPreset.getMandelColor());
         this.Invalidate();
     }
 
@@ -116,10 +117,14 @@ class MandelForm : Form
         {
             for (int y = 0; y < mandelBrotImage.Height; y++)
             {
+                // Devide the x by the scale. And get the position of the figure (not the screen)
                 double tempX = Convert.ToDouble(x) / this.currentPreset.getScale() - (this.mandelBrotImage.Width / this.currentPreset.getScale() / 2 + this.currentPreset.getXMiddle()) ;
                 double tempY = Convert.ToDouble(y) / this.currentPreset.getScale() - (this.mandelBrotImage.Height / this.currentPreset.getScale() / 2 - this.currentPreset.getYMiddle()) ;
 
+                // Use these temp numbers to calculate the mandel
                 int tempMandel = this.calculateMandel(tempX, tempY);
+
+                // Use the mandel to configure a color
                 Color tempColor = this.colorMandel(tempMandel);
                 this.mandelBrotImage.SetPixel(x, y, tempColor);
             }
@@ -179,6 +184,7 @@ class MandelForm : Form
 
     private Color colorMandel(int mandel)
     { 
+        // Check what color is selected
         if (this.currentPreset.getMandelColor() == "Sails")
             return this.sailsColor(mandel);
         if (this.currentPreset.getMandelColor() == "Fire") 
@@ -193,6 +199,7 @@ class MandelForm : Form
 
     private Color basicColor(int mandel)
     {
+        // All even numbers return white
         if (mandel == this.currentPreset.getMax())
             return this.black;
         if (mandel % 2 == 0)
