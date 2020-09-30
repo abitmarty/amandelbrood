@@ -117,6 +117,8 @@ class MandelForm : Form
         double distanceSquere;
         double distance;
 
+        this.checkMax();
+
         do
         {
             // Calculate using given formula
@@ -135,6 +137,12 @@ class MandelForm : Form
             mandel++;
         } while (distance < 2 && mandel < this.max);
         return mandel;
+    }
+
+    private void checkMax()
+    {
+        if (this.max > 1000)
+            this.max = 1000;
     }
 
     private Color colorMandel(int mandel)
