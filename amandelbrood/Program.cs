@@ -69,12 +69,15 @@ class MandelForm : Form
 
     void pictureBoxClicked(object obj, MouseEventArgs ea)
     {
+        // Get x and y coords of the image
         double posX = ea.X;
         double posY = ea.Y;
 
-        this.xMiddle = posX = (((this.mandelBrotImage.Width / 2) - posX) / this.scale) + this.xMiddle;
+        // Set the x and y coords to the x and y values of the clicked position
+        this.xMiddle = (((this.mandelBrotImage.Width / 2) - posX) / this.scale) + this.xMiddle;
         this.yMiddle = - (((this.mandelBrotImage.Height / 2) - posY) / this.scale) + this.yMiddle;
 
+        // Zoom in by updating scale
         this.scale += 500;
 
         this.Invalidate();
@@ -84,9 +87,8 @@ class MandelForm : Form
     {
         this.mandelBrotImage = new Bitmap(pictureBox1.Width, pictureBox1.Height);
 
-        //double tryx = 2;
-        //double tryy = -2;
-
+        // Iterate through all the mandel image pixels
+        // Assign each pixel a value. Thus a color
         for (int x = 0; x < mandelBrotImage.Width; x++)
         {
             for (int y = 0; y < mandelBrotImage.Height; y++)
@@ -94,10 +96,6 @@ class MandelForm : Form
                 double tempX = Convert.ToDouble(x) / this.scale - (this.mandelBrotImage.Width / this.scale / 2 + this.xMiddle) ;
                 double tempY = Convert.ToDouble(y) / this.scale - (this.mandelBrotImage.Height / this.scale / 2 - this.yMiddle) ;
 
-
-                /*              double tempX = (tryx / 400) * x;
-                                double tempY = (tryy / 400) * y;
-                */
                 int tempMandel = this.calculateMandel(tempX, tempY);
                 Color tempColor = this.colorMandel(tempMandel);
                 this.mandelBrotImage.SetPixel(x, y, tempColor);
@@ -141,6 +139,7 @@ class MandelForm : Form
 
     private void checkMax()
     {
+        // Check the max to avoid extreme recursion
         if (this.max > 1000)
             this.max = 1000;
     }
