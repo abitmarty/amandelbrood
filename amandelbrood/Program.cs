@@ -22,14 +22,20 @@ class MandelForm : Form
     private Label labelXValue;
     private ComboBox comboBoxColors;
 
+    // Set defaults
+    private static double defaultxMiddle = 0;
+    private static double defaultyMiddle = 0;
+    private static double defaultScale = 100;
+    private static double defaultMax = 1000;
+    private static String defaultSetMandelColor = "Basic";
 
     // Set global necessities
-    private double xMiddle = 0;
-    private double yMiddle = 0;
-    private double scale = 100;
-    private double max = 1000;
+    private double xMiddle = defaultxMiddle;
+    private double yMiddle = defaultyMiddle;
+    private double scale = defaultScale;
+    private double max = defaultMax;
     private Bitmap mandelBrotImage;
-    private String setMandelColor;
+    private String setMandelColor = defaultSetMandelColor;
 
     //Set colors
     Color black = Color.FromArgb(0, 0, 0);
@@ -39,6 +45,7 @@ class MandelForm : Form
     Color red = Color.FromArgb(226, 56, 56);
     Color purple = Color.FromArgb(151, 57, 153);
     Color blue = Color.FromArgb(0, 156, 223);
+    private Button buttonReset;
     Color green = Color.FromArgb(94, 189, 62);
 
     public MandelForm()
@@ -48,8 +55,7 @@ class MandelForm : Form
         this.Paint += this.drawMandel;
         InitializeComponent();
         this.pictureBox1.MouseClick += this.pictureBoxClicked;
-
-        Console.WriteLine(this.calculateMandel(0.5, 0.8));
+        this.buttonReset.MouseClick += this.resetMandel;
 
         // Set label text
         this.labelYValue.Text = "Center Y";
@@ -65,6 +71,16 @@ class MandelForm : Form
                         "Sig sag",
                         "Rainbow"
         });
+    }
+
+    void resetMandel(object obj, MouseEventArgs ea)
+    {
+        xMiddle = defaultxMiddle;
+        yMiddle = defaultyMiddle;
+        scale = defaultScale;
+        max = defaultMax;
+        setMandelColor = defaultSetMandelColor;
+        this.Invalidate();
     }
 
     void pictureBoxClicked(object obj, MouseEventArgs ea)
@@ -102,6 +118,16 @@ class MandelForm : Form
             }
         }
         this.pictureBox1.Image = this.mandelBrotImage;
+        this.setTextBoxes();
+    }
+
+    public void setTextBoxes()
+    {
+        this.textBoxXValue.Text = this.xMiddle.ToString();
+        this.textBoxYValue.Text = this.yMiddle.ToString();
+        this.textBoxScale.Text = this.scale.ToString();
+        this.textBoxMax.Text = this.max.ToString();
+        this.comboBoxColors.Text = this.setMandelColor;
     }
 
     public int calculateMandel(double xCoord, double yCoord)
@@ -210,143 +236,11 @@ class MandelForm : Form
         if (mandel % 6 == 0)
             return this.green;
 
-
-
         int r = 255 / mandel;
         int g = 255 / (Convert.ToInt32(this.max) - mandel + 1);
         int b = 0;
         Color sailColor = Color.FromArgb(r, g, b);
         return sailColor;
-    }
-
-    private void InitializeComponent()
-    {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MandelForm));
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.labelXValue = new System.Windows.Forms.Label();
-            this.labelYValue = new System.Windows.Forms.Label();
-            this.textBoxXValue = new System.Windows.Forms.TextBox();
-            this.textBoxYValue = new System.Windows.Forms.TextBox();
-            this.textBoxScale = new System.Windows.Forms.TextBox();
-            this.textBoxMax = new System.Windows.Forms.TextBox();
-            this.labelScale = new System.Windows.Forms.Label();
-            this.labelMax = new System.Windows.Forms.Label();
-            this.buttonCalculate = new System.Windows.Forms.Button();
-            this.comboBoxColors = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 59);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(400, 400);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // labelXValue
-            // 
-            this.labelXValue.AutoSize = true;
-            this.labelXValue.Location = new System.Drawing.Point(12, 9);
-            this.labelXValue.Name = "labelXValue";
-            this.labelXValue.Size = new System.Drawing.Size(83, 17);
-            this.labelXValue.TabIndex = 1;
-            this.labelXValue.Text = "labelXValue";
-            // 
-            // labelYValue
-            // 
-            this.labelYValue.AutoSize = true;
-            this.labelYValue.Location = new System.Drawing.Point(12, 32);
-            this.labelYValue.Name = "labelYValue";
-            this.labelYValue.Size = new System.Drawing.Size(83, 17);
-            this.labelYValue.TabIndex = 2;
-            this.labelYValue.Text = "labelYValue";
-            // 
-            // textBoxXValue
-            // 
-            this.textBoxXValue.Location = new System.Drawing.Point(73, 6);
-            this.textBoxXValue.Name = "textBoxXValue";
-            this.textBoxXValue.Size = new System.Drawing.Size(100, 22);
-            this.textBoxXValue.TabIndex = 3;
-            // 
-            // textBoxYValue
-            // 
-            this.textBoxYValue.Location = new System.Drawing.Point(73, 29);
-            this.textBoxYValue.Name = "textBoxYValue";
-            this.textBoxYValue.Size = new System.Drawing.Size(100, 22);
-            this.textBoxYValue.TabIndex = 4;
-            // 
-            // textBoxScale
-            // 
-            this.textBoxScale.Location = new System.Drawing.Point(216, 29);
-            this.textBoxScale.Name = "textBoxScale";
-            this.textBoxScale.Size = new System.Drawing.Size(100, 22);
-            this.textBoxScale.TabIndex = 8;
-            // 
-            // textBoxMax
-            // 
-            this.textBoxMax.Location = new System.Drawing.Point(216, 6);
-            this.textBoxMax.Name = "textBoxMax";
-            this.textBoxMax.Size = new System.Drawing.Size(100, 22);
-            this.textBoxMax.TabIndex = 7;
-            // 
-            // labelScale
-            // 
-            this.labelScale.AutoSize = true;
-            this.labelScale.Location = new System.Drawing.Point(175, 32);
-            this.labelScale.Name = "labelScale";
-            this.labelScale.Size = new System.Drawing.Size(73, 17);
-            this.labelScale.TabIndex = 6;
-            this.labelScale.Text = "labelScale";
-            // 
-            // labelMax
-            // 
-            this.labelMax.AutoSize = true;
-            this.labelMax.Location = new System.Drawing.Point(175, 9);
-            this.labelMax.Name = "labelMax";
-            this.labelMax.Size = new System.Drawing.Size(63, 17);
-            this.labelMax.TabIndex = 5;
-            this.labelMax.Text = "labelMax";
-            // 
-            // buttonCalculate
-            // 
-            this.buttonCalculate.Location = new System.Drawing.Point(334, 6);
-            this.buttonCalculate.Name = "buttonCalculate";
-            this.buttonCalculate.Size = new System.Drawing.Size(75, 43);
-            this.buttonCalculate.TabIndex = 9;
-            this.buttonCalculate.Text = "buttonCalculate";
-            this.buttonCalculate.UseVisualStyleBackColor = true;
-            this.buttonCalculate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.buttonCalculate_MouseClick);
-            // 
-            // comboBoxColors
-            // 
-            this.comboBoxColors.FormattingEnabled = true;
-            this.comboBoxColors.Location = new System.Drawing.Point(415, 7);
-            this.comboBoxColors.Name = "comboBoxColors";
-            this.comboBoxColors.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxColors.TabIndex = 10;
-            // 
-            // MandelForm
-            // 
-            this.ClientSize = new System.Drawing.Size(539, 476);
-            this.Controls.Add(this.comboBoxColors);
-            this.Controls.Add(this.buttonCalculate);
-            this.Controls.Add(this.textBoxScale);
-            this.Controls.Add(this.textBoxMax);
-            this.Controls.Add(this.labelScale);
-            this.Controls.Add(this.labelMax);
-            this.Controls.Add(this.textBoxYValue);
-            this.Controls.Add(this.textBoxXValue);
-            this.Controls.Add(this.labelYValue);
-            this.Controls.Add(this.labelXValue);
-            this.Controls.Add(this.pictureBox1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "MandelForm";
-            this.Load += new System.EventHandler(this.MandelForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
     }
 
     private void buttonCalculate_MouseClick(object sender, MouseEventArgs e)
@@ -367,6 +261,147 @@ class MandelForm : Form
 
         // Invalidate drawing
         this.Invalidate();
+    }
+
+    private void InitializeComponent()
+    {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MandelForm));
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.labelXValue = new System.Windows.Forms.Label();
+            this.labelYValue = new System.Windows.Forms.Label();
+            this.textBoxXValue = new System.Windows.Forms.TextBox();
+            this.textBoxYValue = new System.Windows.Forms.TextBox();
+            this.textBoxScale = new System.Windows.Forms.TextBox();
+            this.textBoxMax = new System.Windows.Forms.TextBox();
+            this.labelScale = new System.Windows.Forms.Label();
+            this.labelMax = new System.Windows.Forms.Label();
+            this.buttonCalculate = new System.Windows.Forms.Button();
+            this.comboBoxColors = new System.Windows.Forms.ComboBox();
+            this.buttonReset = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(12, 59);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(400, 400);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // labelXValue
+            // 
+            this.labelXValue.AutoSize = true;
+            this.labelXValue.Location = new System.Drawing.Point(12, 9);
+            this.labelXValue.Name = "labelXValue";
+            this.labelXValue.Size = new System.Drawing.Size(63, 13);
+            this.labelXValue.TabIndex = 1;
+            this.labelXValue.Text = "labelXValue";
+            // 
+            // labelYValue
+            // 
+            this.labelYValue.AutoSize = true;
+            this.labelYValue.Location = new System.Drawing.Point(12, 32);
+            this.labelYValue.Name = "labelYValue";
+            this.labelYValue.Size = new System.Drawing.Size(63, 13);
+            this.labelYValue.TabIndex = 2;
+            this.labelYValue.Text = "labelYValue";
+            // 
+            // textBoxXValue
+            // 
+            this.textBoxXValue.Location = new System.Drawing.Point(73, 6);
+            this.textBoxXValue.Name = "textBoxXValue";
+            this.textBoxXValue.Size = new System.Drawing.Size(100, 20);
+            this.textBoxXValue.TabIndex = 3;
+            // 
+            // textBoxYValue
+            // 
+            this.textBoxYValue.Location = new System.Drawing.Point(73, 29);
+            this.textBoxYValue.Name = "textBoxYValue";
+            this.textBoxYValue.Size = new System.Drawing.Size(100, 20);
+            this.textBoxYValue.TabIndex = 4;
+            // 
+            // textBoxScale
+            // 
+            this.textBoxScale.Location = new System.Drawing.Point(216, 29);
+            this.textBoxScale.Name = "textBoxScale";
+            this.textBoxScale.Size = new System.Drawing.Size(100, 20);
+            this.textBoxScale.TabIndex = 8;
+            // 
+            // textBoxMax
+            // 
+            this.textBoxMax.Location = new System.Drawing.Point(216, 6);
+            this.textBoxMax.Name = "textBoxMax";
+            this.textBoxMax.Size = new System.Drawing.Size(100, 20);
+            this.textBoxMax.TabIndex = 7;
+            // 
+            // labelScale
+            // 
+            this.labelScale.AutoSize = true;
+            this.labelScale.Location = new System.Drawing.Point(175, 32);
+            this.labelScale.Name = "labelScale";
+            this.labelScale.Size = new System.Drawing.Size(56, 13);
+            this.labelScale.TabIndex = 6;
+            this.labelScale.Text = "labelScale";
+            // 
+            // labelMax
+            // 
+            this.labelMax.AutoSize = true;
+            this.labelMax.Location = new System.Drawing.Point(175, 9);
+            this.labelMax.Name = "labelMax";
+            this.labelMax.Size = new System.Drawing.Size(49, 13);
+            this.labelMax.TabIndex = 5;
+            this.labelMax.Text = "labelMax";
+            // 
+            // buttonCalculate
+            // 
+            this.buttonCalculate.Location = new System.Drawing.Point(334, 6);
+            this.buttonCalculate.Name = "buttonCalculate";
+            this.buttonCalculate.Size = new System.Drawing.Size(75, 43);
+            this.buttonCalculate.TabIndex = 9;
+            this.buttonCalculate.Text = "buttonCalculate";
+            this.buttonCalculate.UseVisualStyleBackColor = true;
+            this.buttonCalculate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.buttonCalculate_MouseClick);
+            // 
+            // comboBoxColors
+            // 
+            this.comboBoxColors.FormattingEnabled = true;
+            this.comboBoxColors.Location = new System.Drawing.Point(415, 7);
+            this.comboBoxColors.Name = "comboBoxColors";
+            this.comboBoxColors.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxColors.TabIndex = 10;
+            // 
+            // buttonReset
+            // 
+            this.buttonReset.Location = new System.Drawing.Point(415, 59);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(121, 23);
+            this.buttonReset.TabIndex = 11;
+            this.buttonReset.Text = "buttonReset";
+            this.buttonReset.UseVisualStyleBackColor = true;
+            // 
+            // MandelForm
+            // 
+            this.ClientSize = new System.Drawing.Size(539, 476);
+            this.Controls.Add(this.buttonReset);
+            this.Controls.Add(this.comboBoxColors);
+            this.Controls.Add(this.buttonCalculate);
+            this.Controls.Add(this.textBoxScale);
+            this.Controls.Add(this.textBoxMax);
+            this.Controls.Add(this.labelScale);
+            this.Controls.Add(this.labelMax);
+            this.Controls.Add(this.textBoxYValue);
+            this.Controls.Add(this.textBoxXValue);
+            this.Controls.Add(this.labelYValue);
+            this.Controls.Add(this.labelXValue);
+            this.Controls.Add(this.pictureBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "MandelForm";
+            this.Load += new System.EventHandler(this.MandelForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
     }
 
     private void MandelForm_Load(object sender, EventArgs e)
