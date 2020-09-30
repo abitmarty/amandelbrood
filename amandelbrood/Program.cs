@@ -181,8 +181,8 @@ class MandelForm : Form
     private Color firesColor(int mandel)
     {
         int r = 255 / mandel;
-        int g = 0 / (Convert.ToInt32(this.max) - mandel + 1);
-        int b = 255;
+        int g = 0 ;
+        int b = 255 / (Convert.ToInt32(this.max) - mandel + 1);
         Color fireColor = Color.FromArgb(r, g, b);
         return fireColor;
     }
