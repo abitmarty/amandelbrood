@@ -6,6 +6,7 @@
 using System.Windows.Forms;
 using System.Drawing;
 using System;
+using amandelbrood;
 
 class MandelForm : Form
 {
@@ -19,6 +20,7 @@ class MandelForm : Form
     private Label labelScale;
     private Label labelMax;
     private Button buttonCalculate;
+    private Button buttonReset;
     private Label labelXValue;
     private ComboBox comboBoxColors;
 
@@ -37,6 +39,13 @@ class MandelForm : Form
     private Bitmap mandelBrotImage;
     private String setMandelColor = defaultSetMandelColor;
 
+    // Presets
+    // private static Preset defaultPreset = new Preset(0, 0, 100, 1000, "Basic");
+    // private Preset currentPreset = defaultPreset;
+
+
+
+
     //Set colors
     Color black = Color.FromArgb(0, 0, 0);
     Color white = Color.FromArgb(255, 255, 255);
@@ -45,7 +54,6 @@ class MandelForm : Form
     Color red = Color.FromArgb(226, 56, 56);
     Color purple = Color.FromArgb(151, 57, 153);
     Color blue = Color.FromArgb(0, 156, 223);
-    private Button buttonReset;
     Color green = Color.FromArgb(94, 189, 62);
 
     public MandelForm()
@@ -76,6 +84,7 @@ class MandelForm : Form
 
     void resetMandel(object obj, MouseEventArgs ea)
     {
+        // Set all values to default
         this.xMiddle = defaultxMiddle;
         this.yMiddle = defaultyMiddle;
         this.scale = defaultScale;
@@ -95,7 +104,7 @@ class MandelForm : Form
         this.yMiddle = - (((this.mandelBrotImage.Height / 2) - posY) / this.scale) + this.yMiddle;
 
         // Zoom in by updating scale
-        this.scale += 500;
+        this.scale *= 2;
 
         this.Invalidate();
     }
@@ -203,7 +212,6 @@ class MandelForm : Form
         return sailColor;
     }
 
-
     private Color firesColor(int mandel)
     {
         int r = 255 / mandel;
@@ -257,8 +265,16 @@ class MandelForm : Form
             this.max = double.Parse(textBoxMax.Text, System.Globalization.CultureInfo.InvariantCulture);
 
         // Read dropdown
-        Object selectedItem = comboBoxColors.SelectedItem;
-        this.setMandelColor = selectedItem.ToString();
+        try
+        {
+            Object selectedItem = comboBoxColors.SelectedItem;
+            this.setMandelColor = selectedItem.ToString();
+        }catch (NullReferenceException exe)
+        {
+            // Do nothing
+        }
+
+        Console.WriteLine("Hello");
 
         // Invalidate drawing
         this.Invalidate();
