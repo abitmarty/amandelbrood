@@ -63,6 +63,7 @@ class MandelForm : Form
         this.labelScale.Text = "Scale";
         this.labelMax.Text = "Max";
         this.buttonCalculate.Text = "Calculate";
+        this.buttonReset.Text = "Reset";
 
         this.comboBoxColors.Items.AddRange(new object[] {
                         "Basic",
@@ -75,11 +76,11 @@ class MandelForm : Form
 
     void resetMandel(object obj, MouseEventArgs ea)
     {
-        xMiddle = defaultxMiddle;
-        yMiddle = defaultyMiddle;
-        scale = defaultScale;
-        max = defaultMax;
-        setMandelColor = defaultSetMandelColor;
+        this.xMiddle = defaultxMiddle;
+        this.yMiddle = defaultyMiddle;
+        this.scale = defaultScale;
+        this.max = defaultMax;
+        this.setMandelColor = defaultSetMandelColor;
         this.Invalidate();
     }
 
