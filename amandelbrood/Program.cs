@@ -81,7 +81,7 @@ class MandelForm : Form
                 double tempY = Convert.ToDouble(y) / this.scale - (this.mandelBrotImage.Height / this.scale / 2 - this.yMiddle) ;
 
 
-                /*                double tempX = (tryx / 400) * x;
+                /*              double tempX = (tryx / 400) * x;
                                 double tempY = (tryy / 400) * y;
                 */
                 int tempMandel = this.calculateMandel(tempX, tempY);
@@ -128,7 +128,7 @@ class MandelForm : Form
         if (setMandelColor == "Sails")
             return this.sailsColor(mandel);
         if (setMandelColor == "Fire") 
-            return this.white;
+            return this.firesColor(mandel);
         if (setMandelColor == "Sig sag") 
             return this.sigsagsColor(mandel);
         if (setMandelColor == "Rainbow")
@@ -153,6 +153,16 @@ class MandelForm : Form
         int b = 0;
         Color sailColor = Color.FromArgb(r, g , b);
         return sailColor;
+    }
+
+
+    private Color firesColor(int mandel)
+    {
+        int r = 255 / mandel;
+        int g = 0 / (Convert.ToInt32(this.max) - mandel + 1);
+        int b = 255;
+        Color fireColor = Color.FromArgb(r, g, b);
+        return fireColor;
     }
 
     private Color sigsagsColor(int mandel)
@@ -187,15 +197,6 @@ class MandelForm : Form
         Color sailColor = Color.FromArgb(r, g, b);
         return sailColor;
     }
-
-    /*private Color sailsColor(int mandel)
-    {
-        int r = 255 / mandel;
-        int g = 255 / (Convert.ToInt32(this.max) - mandel + 1);
-        int b = 0;
-        Color sailColor = Color.FromArgb(r, g, b);
-        return sailColor;
-    }*/
 
     private void InitializeComponent()
     {
