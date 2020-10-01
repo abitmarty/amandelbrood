@@ -308,28 +308,28 @@ class MandelForm : Form
         // If textboxes are filled in read the input
         try
         {
-            this.currentPreset.setXMiddle(double.Parse(textBoxXValue.Text, System.Globalization.CultureInfo.InvariantCulture));
+            this.currentPreset.setXMiddle(double.Parse(textBoxXValue.Text));
             this.textBoxXValue.BackColor = this.colorNormal;
         }
         catch (Exception ea) { this.textBoxXValue.BackColor = this.colorError; }
 
         try
         {
-            this.currentPreset.setYMiddle(double.Parse(textBoxYValue.Text, System.Globalization.CultureInfo.InvariantCulture));
+            this.currentPreset.setYMiddle(double.Parse(textBoxYValue.Text));
             this.textBoxYValue.BackColor = this.colorNormal;
         }
         catch (Exception ea) { this.textBoxYValue.BackColor = this.colorError; }
 
         try
         {
-            this.currentPreset.setScale(double.Parse(textBoxScale.Text, System.Globalization.CultureInfo.InvariantCulture));
+            this.currentPreset.setScale(double.Parse(textBoxScale.Text));
             this.textBoxScale.BackColor = this.colorNormal;
         }
         catch (Exception ea) { this.textBoxScale.BackColor = this.colorError; }
 
         try
         {
-            this.currentPreset.setMax(double.Parse(textBoxMax.Text, System.Globalization.CultureInfo.InvariantCulture));
+            this.currentPreset.setMax(double.Parse(textBoxMax.Text));
             this.textBoxMax.BackColor = this.colorNormal;
         }
         catch (Exception ea) { this.textBoxMax.BackColor = this.colorError; }
