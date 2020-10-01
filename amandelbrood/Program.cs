@@ -105,6 +105,7 @@ class MandelForm : Form
         this.labelColorPicker.Text = "Color picker";
         this.buttonZoomIn.BackColor = colorBtSelected;
         this.buttonZoomOut.BackColor = colorNormal;
+        this.buttonZoomCenter.Text = "Zoom in center";
 
         this.comboBoxColors.Items.AddRange(new object[] {
                         "Basic",
