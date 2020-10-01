@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// This class has been made to reduce the use of variables in the form 'Class'
+// By creating an object of this class in the amandelbrood class, optimises the use of presets 😎
+
 namespace amandelbrood
 {
     class Preset
@@ -14,6 +17,7 @@ namespace amandelbrood
         private double max;
         private String mandelColor;
 
+        // Call this constructor with the assigned member variables to create an object 'preset' in the amandelbrood class
         public Preset(double xMiddle, double yMiddle, double scale, double max, String mandelColor)
         {
             this.setXMiddle(xMiddle);
@@ -23,6 +27,8 @@ namespace amandelbrood
             this.setMandelColor(mandelColor);
         }
 
+        // Create getters and setters
+        // We can use these methods in the amandelbrood class to get the values of the current preset
         public double getXMiddle()
         {
             return this.xMiddle;

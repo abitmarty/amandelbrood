@@ -67,6 +67,7 @@ class MandelForm : Form
     Color blue = Color.FromArgb(0, 156, 223);
     Color green = Color.FromArgb(94, 189, 62);
 
+    // Creating the constructor for a class
     public MandelForm()
     {
         this.Text = "Mandelbrot Designerotronic v1🚀";
@@ -86,7 +87,7 @@ class MandelForm : Form
         this.buttonZoomIn.MouseClick += setZoomIn;
         this.buttonZoomCenter.MouseClick += zoomCenter;
 
-        // Set label text
+        // Set label text for buttons, labels and the combobox
         this.labelYValue.Text = "Center Y";
         this.labelXValue.Text = "Center X";
         this.labelScale.Text = "Scale";
@@ -107,6 +108,7 @@ class MandelForm : Form
         this.buttonZoomOut.BackColor = colorNormal;
         this.buttonZoomCenter.Text = "Zoom in center";
 
+        // The array with the options to choose from
         this.comboBoxColors.Items.AddRange(new object[] {
                         "Basic",
                         "Groen",
@@ -116,27 +118,27 @@ class MandelForm : Form
         });
     }
 
-    void zoomCenter(object obj, MouseEventArgs mou)
+    public void zoomCenter(object obj, MouseEventArgs mou)
     {
         Console.WriteLine("Zoom center");
         this.currentPreset.setScale(this.currentPreset.getScale() * 0.5);
         this.Invalidate();
     }
 
-    void setPreset(object obj, MouseEventArgs ea, Preset tempPreset)
+    public void setPreset(object obj, MouseEventArgs ea, Preset tempPreset)
     {
         // Set all values to tempPreset values given
         currentPreset = new Preset(tempPreset.getXMiddle(), tempPreset.getYMiddle(), tempPreset.getScale(), tempPreset.getMax(), tempPreset.getMandelColor());
         this.Invalidate();
     }
 
-    void pictureBoxClicked(object obj, MouseEventArgs ea)
+    public void pictureBoxClicked(object obj, MouseEventArgs ea)
     {
-        // Get x and y coords of the image
+        // Get x and y coordinates of the image
         double posX = ea.X;
         double posY = ea.Y;
 
-        // Set the x and y coords to the x and y values of the clicked position
+        // Set the x and y coordinates to the x and y values of the clicked position
         this.currentPreset.setXMiddle((((this.mandelBrotImage.Width / 2) - posX) * this.currentPreset.getScale()) + this.currentPreset.getXMiddle());
         this.currentPreset.setYMiddle( - (((this.mandelBrotImage.Height / 2) - posY) * this.currentPreset.getScale()) + this.currentPreset.getYMiddle());
 
@@ -172,8 +174,10 @@ class MandelForm : Form
         this.buttonZoomOut.BackColor = this.colorBtSelected;
     }
 
+    // Creating the Mandelbrot image and adding it to the bitmap
     void drawMandel(object obj, PaintEventArgs pea)
     {
+        // Gets the width of the bitmap image
         this.setMandelImageWidth();
 
         this.mandelBrotImage = new Bitmap(this.pictureboxWidth, this.pictureboxHeight);
@@ -200,6 +204,7 @@ class MandelForm : Form
         this.setTextBoxes();
     }
 
+    // Setting the values to the appropriate textboxes
     public void setTextBoxes()
     {
         this.textBoxXValue.Text = this.currentPreset.getXMiddle().ToString();
@@ -220,6 +225,7 @@ class MandelForm : Form
         double distanceSquere;
         double distance;
 
+        // Checking if the max > 1000, if so, set max to 1000
         this.checkMax();
 
         do
@@ -275,6 +281,8 @@ class MandelForm : Form
         return this.black;
     }
 
+    // Creating a gradient for the 3 color palettes Groen, Rood and Blauw 
+    // Using doubles's and converting to int's for the RGB format
     private Color GroenColor(int mandel)
     {
         int g = 255;
@@ -308,6 +316,8 @@ class MandelForm : Form
         return RoodColor;
     }
 
+    // Creating our favourite colour scale. 
+    // These rainbow colours are mapped in order by using modulo and using the pre defined colours
     private Color rainbowColor(int mandel)
     {
         if (mandel % 6 == 1)
@@ -332,7 +342,7 @@ class MandelForm : Form
 
     private void buttonCalculate_MouseClick(object sender, MouseEventArgs e)
     {
-        // If textboxes are filled in read the input
+        // If textboxes have a appropriate input, read the input
         try
         {
             this.currentPreset.setXMiddle(double.Parse(textBoxXValue.Text));
@@ -367,8 +377,7 @@ class MandelForm : Form
 
     private void comboBoxColors_SelectionChangeCommitted(object sender, EventArgs e)
     {
-        // Read dropdown
-        // TODO: get rid of error on incorect input
+        // Read combobox input on click :)
         try
         {
             Object selectedItem = comboBoxColors.SelectedItem;
@@ -380,6 +389,8 @@ class MandelForm : Form
         this.Invalidate();
     }
 
+    // Calculate the difference between the previous and current screen width
+    // Subtract the change from the picture box
     private void setMandelImageWidth()
     {
         int xChange = this.Width - this.screenWidth;
@@ -394,6 +405,7 @@ class MandelForm : Form
         this.pictureBox1.Size = new System.Drawing.Size(this.pictureboxWidth, this.pictureboxHeight);
     }
 
+    // Give values to the elements created in the designer
     private void InitializeComponent()
     {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MandelForm));
@@ -657,13 +669,14 @@ class MandelForm : Form
 
     }
 
+    // Set image width if application is resized
     private void MandelForm_ResizeEnd(object sender, EventArgs e)
     {
         this.setMandelImageWidth();
     }
 }
 
-class HalloWin3
+class MandelClass
 {
     static void Main()
     {
