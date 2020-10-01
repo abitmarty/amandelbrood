@@ -41,6 +41,10 @@ class MandelForm : Form
     private Color colorError = Color.Red;
     private Color colorBtSelected = Color.LightGray;
     private Color colorNormal = default(Color);
+    private int pictureboxWidth = 400;
+    private int pictureboxHeight = 400;
+    private int screenWidth = 555;
+    private int screenHight = 515;
 
     // Defining presets
     private static Preset defaultPreset = new Preset(0, 0, 100, 1000, "Basic");
@@ -64,7 +68,6 @@ class MandelForm : Form
     public MandelForm()
     {
         this.Text = "Mandelbrot Designerotronic v1🚀";
-        this.Size = new Size(500, 500);
         this.Paint += this.drawMandel;
         InitializeComponent();
         this.pictureBox1.MouseClick += this.pictureBoxClicked;
@@ -164,7 +167,9 @@ class MandelForm : Form
 
     void drawMandel(object obj, PaintEventArgs pea)
     {
-        this.mandelBrotImage = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+        this.setMandelImageWidth();
+
+        this.mandelBrotImage = new Bitmap(this.pictureboxWidth, this.pictureboxHeight);
 
         // Iterate through all the mandel image pixels
         // Assign each pixel a value. Thus a color
@@ -368,6 +373,20 @@ class MandelForm : Form
         this.Invalidate();
     }
 
+    private void setMandelImageWidth()
+    {
+        int xChange = this.Width - this.screenWidth;
+        int yChange = this.Height - this.screenHight;
+
+        this.screenWidth = this.Width;
+        this.screenHight = this.Height;
+
+        this.pictureboxWidth += xChange;
+        this.pictureboxHeight += yChange;
+
+        this.pictureBox1.Size = new System.Drawing.Size(this.pictureboxWidth, this.pictureboxHeight);
+    }
+
     private void InitializeComponent()
     {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MandelForm));
@@ -397,7 +416,7 @@ class MandelForm : Form
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 59);
+            this.pictureBox1.Location = new System.Drawing.Point(136, 60);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(400, 400);
             this.pictureBox1.TabIndex = 0;
@@ -408,7 +427,7 @@ class MandelForm : Form
             this.labelXValue.AutoSize = true;
             this.labelXValue.Location = new System.Drawing.Point(12, 9);
             this.labelXValue.Name = "labelXValue";
-            this.labelXValue.Size = new System.Drawing.Size(83, 17);
+            this.labelXValue.Size = new System.Drawing.Size(63, 13);
             this.labelXValue.TabIndex = 1;
             this.labelXValue.Text = "labelXValue";
             // 
@@ -417,7 +436,7 @@ class MandelForm : Form
             this.labelYValue.AutoSize = true;
             this.labelYValue.Location = new System.Drawing.Point(12, 32);
             this.labelYValue.Name = "labelYValue";
-            this.labelYValue.Size = new System.Drawing.Size(83, 17);
+            this.labelYValue.Size = new System.Drawing.Size(63, 13);
             this.labelYValue.TabIndex = 2;
             this.labelYValue.Text = "labelYValue";
             // 
@@ -425,28 +444,28 @@ class MandelForm : Form
             // 
             this.textBoxXValue.Location = new System.Drawing.Point(73, 6);
             this.textBoxXValue.Name = "textBoxXValue";
-            this.textBoxXValue.Size = new System.Drawing.Size(100, 22);
+            this.textBoxXValue.Size = new System.Drawing.Size(100, 20);
             this.textBoxXValue.TabIndex = 3;
             // 
             // textBoxYValue
             // 
             this.textBoxYValue.Location = new System.Drawing.Point(73, 29);
             this.textBoxYValue.Name = "textBoxYValue";
-            this.textBoxYValue.Size = new System.Drawing.Size(100, 22);
+            this.textBoxYValue.Size = new System.Drawing.Size(100, 20);
             this.textBoxYValue.TabIndex = 4;
             // 
             // textBoxScale
             // 
             this.textBoxScale.Location = new System.Drawing.Point(216, 29);
             this.textBoxScale.Name = "textBoxScale";
-            this.textBoxScale.Size = new System.Drawing.Size(100, 22);
+            this.textBoxScale.Size = new System.Drawing.Size(100, 20);
             this.textBoxScale.TabIndex = 8;
             // 
             // textBoxMax
             // 
             this.textBoxMax.Location = new System.Drawing.Point(216, 6);
             this.textBoxMax.Name = "textBoxMax";
-            this.textBoxMax.Size = new System.Drawing.Size(100, 22);
+            this.textBoxMax.Size = new System.Drawing.Size(100, 20);
             this.textBoxMax.TabIndex = 7;
             // 
             // labelScale
@@ -454,7 +473,7 @@ class MandelForm : Form
             this.labelScale.AutoSize = true;
             this.labelScale.Location = new System.Drawing.Point(175, 32);
             this.labelScale.Name = "labelScale";
-            this.labelScale.Size = new System.Drawing.Size(73, 17);
+            this.labelScale.Size = new System.Drawing.Size(56, 13);
             this.labelScale.TabIndex = 6;
             this.labelScale.Text = "labelScale";
             // 
@@ -463,7 +482,7 @@ class MandelForm : Form
             this.labelMax.AutoSize = true;
             this.labelMax.Location = new System.Drawing.Point(175, 9);
             this.labelMax.Name = "labelMax";
-            this.labelMax.Size = new System.Drawing.Size(63, 17);
+            this.labelMax.Size = new System.Drawing.Size(49, 13);
             this.labelMax.TabIndex = 5;
             this.labelMax.Text = "labelMax";
             // 
@@ -482,13 +501,13 @@ class MandelForm : Form
             this.comboBoxColors.FormattingEnabled = true;
             this.comboBoxColors.Location = new System.Drawing.Point(415, 7);
             this.comboBoxColors.Name = "comboBoxColors";
-            this.comboBoxColors.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxColors.Size = new System.Drawing.Size(121, 21);
             this.comboBoxColors.TabIndex = 10;
             this.comboBoxColors.SelectionChangeCommitted += new System.EventHandler(this.comboBoxColors_SelectionChangeCommitted);
             // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(415, 59);
+            this.buttonReset.Location = new System.Drawing.Point(13, 60);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(121, 23);
             this.buttonReset.TabIndex = 11;
@@ -497,7 +516,7 @@ class MandelForm : Form
             // 
             // buttonPreset1
             // 
-            this.buttonPreset1.Location = new System.Drawing.Point(415, 116);
+            this.buttonPreset1.Location = new System.Drawing.Point(13, 117);
             this.buttonPreset1.Name = "buttonPreset1";
             this.buttonPreset1.Size = new System.Drawing.Size(121, 23);
             this.buttonPreset1.TabIndex = 12;
@@ -506,7 +525,7 @@ class MandelForm : Form
             // 
             // buttonPreset2
             // 
-            this.buttonPreset2.Location = new System.Drawing.Point(415, 145);
+            this.buttonPreset2.Location = new System.Drawing.Point(13, 146);
             this.buttonPreset2.Name = "buttonPreset2";
             this.buttonPreset2.Size = new System.Drawing.Size(121, 23);
             this.buttonPreset2.TabIndex = 12;
@@ -515,7 +534,7 @@ class MandelForm : Form
             // 
             // buttonPreset3
             // 
-            this.buttonPreset3.Location = new System.Drawing.Point(415, 174);
+            this.buttonPreset3.Location = new System.Drawing.Point(13, 175);
             this.buttonPreset3.Name = "buttonPreset3";
             this.buttonPreset3.Size = new System.Drawing.Size(121, 23);
             this.buttonPreset3.TabIndex = 12;
@@ -525,24 +544,24 @@ class MandelForm : Form
             // labelPreset
             // 
             this.labelPreset.AutoSize = true;
-            this.labelPreset.Location = new System.Drawing.Point(418, 100);
+            this.labelPreset.Location = new System.Drawing.Point(16, 101);
             this.labelPreset.Name = "labelPreset";
-            this.labelPreset.Size = new System.Drawing.Size(79, 17);
+            this.labelPreset.Size = new System.Drawing.Size(59, 13);
             this.labelPreset.TabIndex = 13;
             this.labelPreset.Text = "labelPreset";
             // 
             // labelZoomOnClick
             // 
             this.labelZoomOnClick.AutoSize = true;
-            this.labelZoomOnClick.Location = new System.Drawing.Point(421, 419);
+            this.labelZoomOnClick.Location = new System.Drawing.Point(19, 420);
             this.labelZoomOnClick.Name = "labelZoomOnClick";
-            this.labelZoomOnClick.Size = new System.Drawing.Size(122, 17);
+            this.labelZoomOnClick.Size = new System.Drawing.Size(93, 13);
             this.labelZoomOnClick.TabIndex = 14;
             this.labelZoomOnClick.Text = "labelZoomOnClick";
             // 
             // buttonZoomOut
             // 
-            this.buttonZoomOut.Location = new System.Drawing.Point(421, 436);
+            this.buttonZoomOut.Location = new System.Drawing.Point(19, 437);
             this.buttonZoomOut.Name = "buttonZoomOut";
             this.buttonZoomOut.Size = new System.Drawing.Size(35, 23);
             this.buttonZoomOut.TabIndex = 15;
@@ -551,7 +570,7 @@ class MandelForm : Form
             // 
             // buttonZoomIn
             // 
-            this.buttonZoomIn.Location = new System.Drawing.Point(483, 436);
+            this.buttonZoomIn.Location = new System.Drawing.Point(81, 437);
             this.buttonZoomIn.Name = "buttonZoomIn";
             this.buttonZoomIn.Size = new System.Drawing.Size(35, 23);
             this.buttonZoomIn.TabIndex = 16;
@@ -560,7 +579,7 @@ class MandelForm : Form
             // 
             // buttonPreset4
             // 
-            this.buttonPreset4.Location = new System.Drawing.Point(415, 203);
+            this.buttonPreset4.Location = new System.Drawing.Point(13, 204);
             this.buttonPreset4.Name = "buttonPreset4";
             this.buttonPreset4.Size = new System.Drawing.Size(121, 23);
             this.buttonPreset4.TabIndex = 17;
@@ -569,7 +588,7 @@ class MandelForm : Form
             // 
             // buttonPreset5
             // 
-            this.buttonPreset5.Location = new System.Drawing.Point(415, 232);
+            this.buttonPreset5.Location = new System.Drawing.Point(13, 233);
             this.buttonPreset5.Name = "buttonPreset5";
             this.buttonPreset5.Size = new System.Drawing.Size(121, 23);
             this.buttonPreset5.TabIndex = 18;
@@ -602,12 +621,17 @@ class MandelForm : Form
             this.Controls.Add(this.pictureBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MandelForm";
+            this.ResizeEnd += new System.EventHandler(this.MandelForm_ResizeEnd);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
     }
 
+    private void MandelForm_ResizeEnd(object sender, EventArgs e)
+    {
+        this.setMandelImageWidth();
+    }
 }
 
 class HalloWin3
