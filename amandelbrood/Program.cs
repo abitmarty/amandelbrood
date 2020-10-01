@@ -28,6 +28,7 @@ class MandelForm : Form
     private Button buttonZoomOut;
     private Button buttonZoomIn;
     private Label labelColorPicker;
+    private Button buttonZoomCenter;
 
     // Preset buttons
     private Button buttonPreset1;
@@ -83,6 +84,7 @@ class MandelForm : Form
         this.buttonPreset5.MouseClick += (sender, EventArgs) => { setPreset(sender, EventArgs, preset5); }; ;
         this.buttonZoomOut.MouseClick += setZoomOut;
         this.buttonZoomIn.MouseClick += setZoomIn;
+        this.buttonZoomCenter.MouseClick += zoomCenter;
 
         // Set label text
         this.labelYValue.Text = "Center Y";
@@ -111,6 +113,13 @@ class MandelForm : Form
                         "Blauw",
                         "Rainbow"
         });
+    }
+
+    void zoomCenter(object obj, MouseEventArgs mou)
+    {
+        Console.WriteLine("Zoom center");
+        this.currentPreset.setScale(this.currentPreset.getScale() * 0.5);
+        this.Invalidate();
     }
 
     void setPreset(object obj, MouseEventArgs ea, Preset tempPreset)
@@ -409,6 +418,7 @@ class MandelForm : Form
             this.buttonPreset4 = new System.Windows.Forms.Button();
             this.buttonPreset5 = new System.Windows.Forms.Button();
             this.labelColorPicker = new System.Windows.Forms.Label();
+            this.buttonZoomCenter = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -568,7 +578,7 @@ class MandelForm : Form
             // 
             // buttonZoomIn
             // 
-            this.buttonZoomIn.Location = new System.Drawing.Point(81, 437);
+            this.buttonZoomIn.Location = new System.Drawing.Point(73, 437);
             this.buttonZoomIn.Name = "buttonZoomIn";
             this.buttonZoomIn.Size = new System.Drawing.Size(35, 23);
             this.buttonZoomIn.TabIndex = 16;
@@ -602,9 +612,19 @@ class MandelForm : Form
             this.labelColorPicker.TabIndex = 19;
             this.labelColorPicker.Text = "labelColorPicker";
             // 
+            // buttonZoomCenter
+            // 
+            this.buttonZoomCenter.Location = new System.Drawing.Point(15, 367);
+            this.buttonZoomCenter.Name = "buttonZoomCenter";
+            this.buttonZoomCenter.Size = new System.Drawing.Size(115, 36);
+            this.buttonZoomCenter.TabIndex = 20;
+            this.buttonZoomCenter.Text = "buttonZoomCenter";
+            this.buttonZoomCenter.UseVisualStyleBackColor = true;
+            // 
             // MandelForm
             // 
             this.ClientSize = new System.Drawing.Size(539, 476);
+            this.Controls.Add(this.buttonZoomCenter);
             this.Controls.Add(this.labelColorPicker);
             this.Controls.Add(this.buttonPreset5);
             this.Controls.Add(this.buttonPreset4);
