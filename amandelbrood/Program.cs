@@ -27,6 +27,7 @@ class MandelForm : Form
     private Label labelZoomOnClick;
     private Button buttonZoomOut;
     private Button buttonZoomIn;
+    private Label labelColorPicker;
 
     // Preset buttons
     private Button buttonPreset1;
@@ -99,6 +100,7 @@ class MandelForm : Form
         this.buttonZoomOut.Text = "-";
         this.buttonZoomIn.Text = "+";
         this.labelZoomOnClick.Text = "Zooming in";
+        this.labelColorPicker.Text = "Color picker";
         this.buttonZoomIn.BackColor = colorBtSelected;
         this.buttonZoomOut.BackColor = colorNormal;
 
@@ -109,11 +111,6 @@ class MandelForm : Form
                         "Blauw",
                         "Rainbow"
         });
-    }
-
-    void comboboxClicked(object obj, MouseEventArgs ea)
-    {
-        Console.WriteLine("sdf");
     }
 
     void setPreset(object obj, MouseEventArgs ea, Preset tempPreset)
@@ -411,6 +408,7 @@ class MandelForm : Form
             this.buttonZoomIn = new System.Windows.Forms.Button();
             this.buttonPreset4 = new System.Windows.Forms.Button();
             this.buttonPreset5 = new System.Windows.Forms.Button();
+            this.labelColorPicker = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -499,7 +497,7 @@ class MandelForm : Form
             // comboBoxColors
             // 
             this.comboBoxColors.FormattingEnabled = true;
-            this.comboBoxColors.Location = new System.Drawing.Point(415, 7);
+            this.comboBoxColors.Location = new System.Drawing.Point(415, 28);
             this.comboBoxColors.Name = "comboBoxColors";
             this.comboBoxColors.Size = new System.Drawing.Size(121, 21);
             this.comboBoxColors.TabIndex = 10;
@@ -595,9 +593,19 @@ class MandelForm : Form
             this.buttonPreset5.Text = "buttonPreset1";
             this.buttonPreset5.UseVisualStyleBackColor = true;
             // 
+            // labelColorPicker
+            // 
+            this.labelColorPicker.AutoSize = true;
+            this.labelColorPicker.Location = new System.Drawing.Point(415, 9);
+            this.labelColorPicker.Name = "labelColorPicker";
+            this.labelColorPicker.Size = new System.Drawing.Size(83, 13);
+            this.labelColorPicker.TabIndex = 19;
+            this.labelColorPicker.Text = "labelColorPicker";
+            // 
             // MandelForm
             // 
             this.ClientSize = new System.Drawing.Size(539, 476);
+            this.Controls.Add(this.labelColorPicker);
             this.Controls.Add(this.buttonPreset5);
             this.Controls.Add(this.buttonPreset4);
             this.Controls.Add(this.buttonZoomIn);
