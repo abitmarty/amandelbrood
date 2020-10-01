@@ -104,6 +104,11 @@ class MandelForm : Form
         });
     }
 
+    void comboboxClicked(object obj, MouseEventArgs ea)
+    {
+        Console.WriteLine("sdf");
+    }
+
     void setPreset(object obj, MouseEventArgs ea, Preset tempPreset)
     {
         // Set all values to tempPreset values given
@@ -334,18 +339,22 @@ class MandelForm : Form
         }
         catch (Exception ea) { this.textBoxMax.BackColor = this.colorError; }
 
+        // Invalidate drawing
+        this.Invalidate();
+    }
+
+    private void comboBoxColors_SelectionChangeCommitted(object sender, EventArgs e)
+    {
         // Read dropdown
         // TODO: get rid of error on incorect input
         try
         {
             Object selectedItem = comboBoxColors.SelectedItem;
             this.currentPreset.setMandelColor(selectedItem.ToString());
-        }catch (Exception ea)
-        {
-            // Do nothing
         }
+        catch (Exception ea)
+        { }
 
-        // Invalidate drawing
         this.Invalidate();
     }
 
@@ -388,7 +397,7 @@ class MandelForm : Form
             this.labelXValue.AutoSize = true;
             this.labelXValue.Location = new System.Drawing.Point(12, 9);
             this.labelXValue.Name = "labelXValue";
-            this.labelXValue.Size = new System.Drawing.Size(83, 17);
+            this.labelXValue.Size = new System.Drawing.Size(63, 13);
             this.labelXValue.TabIndex = 1;
             this.labelXValue.Text = "labelXValue";
             // 
@@ -397,7 +406,7 @@ class MandelForm : Form
             this.labelYValue.AutoSize = true;
             this.labelYValue.Location = new System.Drawing.Point(12, 32);
             this.labelYValue.Name = "labelYValue";
-            this.labelYValue.Size = new System.Drawing.Size(83, 17);
+            this.labelYValue.Size = new System.Drawing.Size(63, 13);
             this.labelYValue.TabIndex = 2;
             this.labelYValue.Text = "labelYValue";
             // 
@@ -405,28 +414,28 @@ class MandelForm : Form
             // 
             this.textBoxXValue.Location = new System.Drawing.Point(73, 6);
             this.textBoxXValue.Name = "textBoxXValue";
-            this.textBoxXValue.Size = new System.Drawing.Size(100, 22);
+            this.textBoxXValue.Size = new System.Drawing.Size(100, 20);
             this.textBoxXValue.TabIndex = 3;
             // 
             // textBoxYValue
             // 
             this.textBoxYValue.Location = new System.Drawing.Point(73, 29);
             this.textBoxYValue.Name = "textBoxYValue";
-            this.textBoxYValue.Size = new System.Drawing.Size(100, 22);
+            this.textBoxYValue.Size = new System.Drawing.Size(100, 20);
             this.textBoxYValue.TabIndex = 4;
             // 
             // textBoxScale
             // 
             this.textBoxScale.Location = new System.Drawing.Point(216, 29);
             this.textBoxScale.Name = "textBoxScale";
-            this.textBoxScale.Size = new System.Drawing.Size(100, 22);
+            this.textBoxScale.Size = new System.Drawing.Size(100, 20);
             this.textBoxScale.TabIndex = 8;
             // 
             // textBoxMax
             // 
             this.textBoxMax.Location = new System.Drawing.Point(216, 6);
             this.textBoxMax.Name = "textBoxMax";
-            this.textBoxMax.Size = new System.Drawing.Size(100, 22);
+            this.textBoxMax.Size = new System.Drawing.Size(100, 20);
             this.textBoxMax.TabIndex = 7;
             // 
             // labelScale
@@ -434,7 +443,7 @@ class MandelForm : Form
             this.labelScale.AutoSize = true;
             this.labelScale.Location = new System.Drawing.Point(175, 32);
             this.labelScale.Name = "labelScale";
-            this.labelScale.Size = new System.Drawing.Size(73, 17);
+            this.labelScale.Size = new System.Drawing.Size(56, 13);
             this.labelScale.TabIndex = 6;
             this.labelScale.Text = "labelScale";
             // 
@@ -443,7 +452,7 @@ class MandelForm : Form
             this.labelMax.AutoSize = true;
             this.labelMax.Location = new System.Drawing.Point(175, 9);
             this.labelMax.Name = "labelMax";
-            this.labelMax.Size = new System.Drawing.Size(63, 17);
+            this.labelMax.Size = new System.Drawing.Size(49, 13);
             this.labelMax.TabIndex = 5;
             this.labelMax.Text = "labelMax";
             // 
@@ -462,8 +471,9 @@ class MandelForm : Form
             this.comboBoxColors.FormattingEnabled = true;
             this.comboBoxColors.Location = new System.Drawing.Point(415, 7);
             this.comboBoxColors.Name = "comboBoxColors";
-            this.comboBoxColors.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxColors.Size = new System.Drawing.Size(121, 21);
             this.comboBoxColors.TabIndex = 10;
+            this.comboBoxColors.SelectionChangeCommitted += new System.EventHandler(this.comboBoxColors_SelectionChangeCommitted);
             // 
             // buttonReset
             // 
@@ -506,7 +516,7 @@ class MandelForm : Form
             this.labelPreset.AutoSize = true;
             this.labelPreset.Location = new System.Drawing.Point(418, 100);
             this.labelPreset.Name = "labelPreset";
-            this.labelPreset.Size = new System.Drawing.Size(79, 17);
+            this.labelPreset.Size = new System.Drawing.Size(59, 13);
             this.labelPreset.TabIndex = 13;
             this.labelPreset.Text = "labelPreset";
             // 
@@ -515,7 +525,7 @@ class MandelForm : Form
             this.labelZoomOnClick.AutoSize = true;
             this.labelZoomOnClick.Location = new System.Drawing.Point(421, 229);
             this.labelZoomOnClick.Name = "labelZoomOnClick";
-            this.labelZoomOnClick.Size = new System.Drawing.Size(122, 17);
+            this.labelZoomOnClick.Size = new System.Drawing.Size(93, 13);
             this.labelZoomOnClick.TabIndex = 14;
             this.labelZoomOnClick.Text = "labelZoomOnClick";
             // 
@@ -576,6 +586,7 @@ class MandelForm : Form
             this.PerformLayout();
 
     }
+
 }
 
 class HalloWin3
