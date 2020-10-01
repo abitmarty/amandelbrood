@@ -97,9 +97,9 @@ class MandelForm : Form
 
         this.comboBoxColors.Items.AddRange(new object[] {
                         "Basic",
-                        "Sails",
-                        "Fire",
-                        "Sig sag",
+                        "Groen",
+                        "Rood",
+                        "Blauw",
                         "Rainbow"
         });
     }
@@ -231,11 +231,11 @@ class MandelForm : Form
     private Color colorMandel(int mandel)
     { 
         // Check what color is selected
-        if (this.currentPreset.getMandelColor() == "Sails")
-            return this.sailsColor(mandel);
-        if (this.currentPreset.getMandelColor() == "Fire") 
-            return this.firesColor(mandel);
-        if (this.currentPreset.getMandelColor() == "Sig sag") 
+        if (this.currentPreset.getMandelColor() == "Groen")
+            return this.GroenColor(mandel);
+        if (this.currentPreset.getMandelColor() == "Rood") 
+            return this.RoodsColor(mandel);
+        if (this.currentPreset.getMandelColor() == "Blauw") 
             return this.sigsagsColor(mandel);
         if (this.currentPreset.getMandelColor() == "Rainbow")
             return this.rainbowColor(mandel);
@@ -253,7 +253,7 @@ class MandelForm : Form
         return this.black;
     }
 
-    private Color sailsColor(int mandel)
+    private Color GroenColor(int mandel)
     {
         int r = 255 / mandel;
         int g = 255 / (Convert.ToInt32(this.currentPreset.getMax()) - mandel + 1);
@@ -262,13 +262,13 @@ class MandelForm : Form
         return sailColor;
     }
 
-    private Color firesColor(int mandel)
+    private Color RoodsColor(int mandel)
     {
         int r = 255 / mandel;
         int g = 0 ;
         int b = 255 / (Convert.ToInt32(this.currentPreset.getMax()) - mandel + 1);
-        Color fireColor = Color.FromArgb(r, g, b);
-        return fireColor;
+        Color RoodColor = Color.FromArgb(r, g, b);
+        return RoodColor;
     }
 
     private Color sigsagsColor(int mandel)
