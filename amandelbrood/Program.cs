@@ -236,7 +236,7 @@ class MandelForm : Form
         if (this.currentPreset.getMandelColor() == "Rood") 
             return this.RoodsColor(mandel);
         if (this.currentPreset.getMandelColor() == "Blauw") 
-            return this.sigsagsColor(mandel);
+            return this.BlauwsColor(mandel);
         if (this.currentPreset.getMandelColor() == "Rainbow")
             return this.rainbowColor(mandel);
 
@@ -272,13 +272,13 @@ class MandelForm : Form
         return RoodColor;
     }
 
-    private Color sigsagsColor(int mandel)
+    private Color BlauwsColor(int mandel)
     {
         int r = 0;
         int g = 255 / mandel;
         int b = 255 / (Convert.ToInt32(this.currentPreset.getMax()) - mandel + 1);
-        Color sigsagColor = Color.FromArgb(r, g, b);
-        return sigsagColor;
+        Color BlauwColor = Color.FromArgb(r, g, b);
+        return BlauwColor;
     }
 
     private Color rainbowColor(int mandel)
