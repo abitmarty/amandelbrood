@@ -116,6 +116,7 @@ class MandelForm : Form
                         "Blauw",
                         "Rainbow"
         });
+        this.setTextBoxes();
     }
 
     public void zoomCenter(object obj, MouseEventArgs mou)
@@ -201,7 +202,6 @@ class MandelForm : Form
             }
         }
         this.pictureBox1.Image = this.mandelBrotImage;
-        this.setTextBoxes();
     }
 
     // Setting the values to the appropriate textboxes
