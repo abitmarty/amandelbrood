@@ -48,12 +48,12 @@ class MandelForm : Form
     private int screenHight = 515;
 
     // Defining presets
-    private static Preset defaultPreset = new Preset(0, 0, 100, 1000, "Basic");
-    private static Preset preset1 = new Preset(0.105546875, -0.92421875, 40000, 1000, "Rainbow");
-    private static Preset preset2 = new Preset(0.5622216796875, -0.6428271484375, 409600, 1000, "Rainbow");
-    private static Preset preset3 = new Preset(0.75248046875, 0.038642578125, 409600, 400, "Basic");
-    private static Preset preset4 = new Preset(0.3672, -0.60185, 40000, 1000, "Rainbow");
-    private static Preset preset5 = new Preset(0.36489375, -0.60032578125, 640000, 1000, "Blauw");
+    private static Preset defaultPreset = new Preset(0, 0, 0.01, 1000, "Basic");
+    private static Preset preset1 = new Preset(0.105390625, -0.92462890625, 3.90625E-05, 1000, "Rainbow");
+    private static Preset preset2 = new Preset(0.5622216796875, -0.6428271484375, 1E-05, 1000, "Rainbow");
+    private static Preset preset3 = new Preset(0.75248046875, 0.038642578125, 2E-06, 400, "Basic");
+    private static Preset preset4 = new Preset(0.3672, -0.60185, 4E-05, 1000, "Rainbow");
+    private static Preset preset5 = new Preset(0.36489375, -0.60032578125, 2.5E-06, 1000, "Blauw");
     private Preset currentPreset = new Preset(defaultPreset.getXMiddle(), defaultPreset.getYMiddle(), defaultPreset.getScale(), defaultPreset.getMax(), defaultPreset.getMandelColor());
 
     //Set colors for mandel
@@ -127,8 +127,8 @@ class MandelForm : Form
         double posY = ea.Y;
 
         // Set the x and y coords to the x and y values of the clicked position
-        this.currentPreset.setXMiddle((((this.mandelBrotImage.Width / 2) - posX) / this.currentPreset.getScale()) + this.currentPreset.getXMiddle());
-        this.currentPreset.setYMiddle( - (((this.mandelBrotImage.Height / 2) - posY) / this.currentPreset.getScale()) + this.currentPreset.getYMiddle());
+        this.currentPreset.setXMiddle((((this.mandelBrotImage.Width / 2) - posX) * this.currentPreset.getScale()) + this.currentPreset.getXMiddle());
+        this.currentPreset.setYMiddle( - (((this.mandelBrotImage.Height / 2) - posY) * this.currentPreset.getScale()) + this.currentPreset.getYMiddle());
 
         // Zoom in by updating scale
         this.zoomInZoomOut();
@@ -139,10 +139,10 @@ class MandelForm : Form
     private void zoomInZoomOut()
     {
         if (this.zoomIn)
-            this.currentPreset.setScale(this.currentPreset.getScale() * 2);
+            this.currentPreset.setScale(this.currentPreset.getScale() * 0.5);
         else
         {
-            this.currentPreset.setScale(this.currentPreset.getScale() * 0.5);
+            this.currentPreset.setScale(this.currentPreset.getScale() * 2);
         }
     }
 
@@ -175,8 +175,8 @@ class MandelForm : Form
             for (int y = 0; y < mandelBrotImage.Height; y++)
             {
                 // Devide the x by the scale. And get the position of the figure (not the screen)
-                double tempX = Convert.ToDouble(x) / this.currentPreset.getScale() - (this.mandelBrotImage.Width / this.currentPreset.getScale() / 2 + this.currentPreset.getXMiddle()) ;
-                double tempY = Convert.ToDouble(y) / this.currentPreset.getScale() - (this.mandelBrotImage.Height / this.currentPreset.getScale() / 2 - this.currentPreset.getYMiddle()) ;
+                double tempX = Convert.ToDouble(x) * this.currentPreset.getScale() - (this.mandelBrotImage.Width * this.currentPreset.getScale() / 2 + this.currentPreset.getXMiddle()) ;
+                double tempY = Convert.ToDouble(y) * this.currentPreset.getScale() - (this.mandelBrotImage.Height * this.currentPreset.getScale() / 2 - this.currentPreset.getYMiddle()) ;
 
                 // Use these temp numbers to calculate the mandel
                 int tempMandel = this.calculateMandel(tempX, tempY);
