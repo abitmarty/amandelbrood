@@ -241,6 +241,7 @@ class MandelForm : Form
             return this.rainbowColor(mandel);
 
         return this.basicColor(mandel);
+
     }
 
     private Color basicColor(int mandel)
