@@ -47,6 +47,7 @@ class MandelForm : Form
     private int pictureboxHeight = 400;
     private int screenWidth = 555;
     private int screenHight = 515;
+    private Boolean isFirstCustom = true;
 
     // Defining presets
     private static Preset defaultPreset = new Preset(0, 0, 0.01, 1000, "Basic");
@@ -116,12 +117,13 @@ class MandelForm : Form
                         "Blauw",
                         "Rainbow"
         });
-        this.setTextBoxes();
+
+        if (this.isFirstCustom)
+            this.setTextBoxes();
     }
 
     public void zoomCenter(object obj, MouseEventArgs mou)
     {
-        Console.WriteLine("Zoom center");
         this.currentPreset.setScale(this.currentPreset.getScale() * 0.5);
         this.Invalidate();
     }
@@ -130,6 +132,7 @@ class MandelForm : Form
     {
         // Set all values to tempPreset values given
         currentPreset = new Preset(tempPreset.getXMiddle(), tempPreset.getYMiddle(), tempPreset.getScale(), tempPreset.getMax(), tempPreset.getMandelColor());
+        this.setTextBoxes();
         this.Invalidate();
     }
 
@@ -202,6 +205,8 @@ class MandelForm : Form
             }
         }
         this.pictureBox1.Image = this.mandelBrotImage;
+        if(!this.isFirstCustom)
+            this.setTextBoxes();
     }
 
     // Setting the values to the appropriate textboxes
@@ -370,6 +375,8 @@ class MandelForm : Form
             this.textBoxMax.BackColor = this.colorNormal;
         }
         catch (Exception ea) { this.textBoxMax.BackColor = this.colorError; }
+
+        this.isFirstCustom = false;
 
         // Invalidate drawing
         this.Invalidate();
