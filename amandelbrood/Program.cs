@@ -212,7 +212,6 @@ class MandelForm : Form
     public void setTextBoxes()
     {
 
-        Console.WriteLine("Called");
         this.textBoxXValue.Text = this.currentPreset.getXMiddle().ToString();
         this.textBoxYValue.Text = this.currentPreset.getYMiddle().ToString();
         this.textBoxScale.Text = this.currentPreset.getScale().ToString();
